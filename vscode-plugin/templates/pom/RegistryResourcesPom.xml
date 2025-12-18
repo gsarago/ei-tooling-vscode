@@ -27,14 +27,6 @@
       <id>wso2-nexus</id>
       <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
     </repository>
-    <repository>
-      <id>wso2-maven2-repository-1</id>
-      <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
-    </repository>
-    <repository>
-      <id>wso2-nexus-maven2-repository-1</id>
-      <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
-    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>
@@ -44,14 +36,6 @@
         <checksumPolicy>ignore</checksumPolicy>
       </releases>
       <id>wso2-nexus</id>
-      <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>wso2-maven2-repository-1</id>
-      <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>wso2-nexus-maven2-repository-1</id>
       <url>https://maven.wso2.org/nexus/content/groups/wso2-public/</url>
     </pluginRepository>
   </pluginRepositories>
@@ -129,13 +113,6 @@
             </configuration>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>javax.activation</artifactId>
-            <version>1.2.0</version>
-          </dependency>
-        </dependencies>
         <configuration/>
       </plugin>
     </plugins>
