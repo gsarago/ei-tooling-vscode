@@ -215,23 +215,24 @@ export namespace ArtifactModule {
                     }
                     else if (type === ProxyArtifactInfo.TYPE) {//create metadata file for proxy service
                         //path to metadata template
-                        let templateMetadataFilePath = path.join(__dirname, '..', '..', TEMPLATES, METADATA, `${METADATA}.yaml`);
+                        //let templateMetadataFilePath = path.join(__dirname, '..', '..', TEMPLATES, METADATA, `${METADATA}.yaml`);
                         //path to metadata file
-                        let targetMetadataFilePath = path.join(pathtoResourcesFile, `${targetArtifactName}_proxy_${METADATA}.yaml`);
+                        //let targetMetadataFilePath = path.join(pathtoResourcesFile, `${targetArtifactName}_proxy_${METADATA}.yaml`);
 
-                        let edit = new WorkspaceEdit();
-                        let targetMetadataFilePatUri = Uri.file(targetMetadataFilePath);
-                        edit.createFile(targetMetadataFilePatUri);
-                        workspace.applyEdit(edit);
+                        //let edit = new WorkspaceEdit();
+                        //let targetMetadataFilePatUri = Uri.file(targetMetadataFilePath);
+                        //edit.createFile(targetMetadataFilePatUri);
+                        //workspace.applyEdit(edit);
 
                         //create and update metadata.yaml
-                        let serviceUrl: string = "https://{MI_HOST}:{MI_PORT}/services/" + targetArtifactName;
-                        createMetaDataYaml(templateMetadataFilePath, targetArtifactName, "Sample Proxy Service", "WSDL1", serviceUrl,
-                            targetMetadataFilePatUri);
+                        //let serviceUrl: string = "https://{MI_HOST}:{MI_PORT}/services/" + targetArtifactName;
+                        //createMetaDataYaml(templateMetadataFilePath, targetArtifactName, "Sample Proxy Service", "WSDL1", serviceUrl,
+                        //    targetMetadataFilePatUri);
                     }
 
                     createTargetArtifactFromTemplate(targetArtifactFileUri, targetArtifactName,
                         templateArtifactFilePath, artifactType, registryResource);
+                    //TODO questo non sta funzionando
                     addNewArtifactToArtifactXmlFile(subDirectory, targetArtifactName, targetFolder, type);
                     updateCompositePomXmlFile(rootDirectory, targetArtifactName, type);
                 }
