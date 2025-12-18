@@ -399,7 +399,7 @@ export namespace Utils {
         let rootPomXmlDoc = new DOM().parseFromString(rootPomBuffer.toString(), "text/xml");
         let modules = rootPomXmlDoc.getElementsByTagName(MODULES)[0];
         let compositeExporterModule = rootPomXmlDoc.createElement(MODULE);
-        compositeExporterModule.textContent = projectName.trim();
+        compositeExporterModule.textContent = '../'+projectName.trim();
 
         modules.appendChild(compositeExporterModule);
         fse.writeFileSync(rootPomFilePath, new XMLSerializer().serializeToString(rootPomXmlDoc));
@@ -718,7 +718,7 @@ export namespace Utils {
                 }
                 fse.mkdirSync(newDirectory);
                 //add artifact.xml, pom.xml and .project
-                createParentConfigurationFiles('it.eng.cct.wso2.' + projectName, 'it.eng.cct.wso2', '1.0.0', projectName, newDirectory, templatePomFilePath);
+                createParentConfigurationFiles(projectName + directoryType, 'it.eng.cct.wso2.'+projectName, '1.0.0', projectName, newDirectory, templatePomFilePath);
             }
         }
         else {
@@ -730,7 +730,7 @@ export namespace Utils {
             }
             fse.mkdirSync(newDirectory);
             //add artifact.xml, pom.xml and .project
-            createParentConfigurationFiles('it.eng.cct.wso2.' + projectName, 'it.eng.cct.wso2', '1.0.0', projectName, newDirectory, templatePomFilePath);
+            createParentConfigurationFiles(projectName + directoryType, 'it.eng.cct.wso2.'+projectName, '1.0.0', projectName, newDirectory, templatePomFilePath);
         }
     }
 

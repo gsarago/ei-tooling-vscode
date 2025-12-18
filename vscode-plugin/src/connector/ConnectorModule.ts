@@ -67,13 +67,13 @@ export namespace ConnectorModule {
         let subModules = rootPomXmlDoc.getElementsByTagName(MODULE);
         let totalSubModules: number = subModules.length;
         let connectorModule = rootPomXmlDoc.createElement(MODULE);
-        connectorModule.textContent = projectName.trim();
+        connectorModule.textContent = '../'+projectName.trim();
 
         let append: boolean = false;
         
         rootDirectory = path.join(rootDirectory, "..");
         for (let i = 0; i < totalSubModules; i++) {
-            let configurationFilePath: string = path.join(rootDirectory, subModules[i].textContent.trim(), PROJECT_FILE);
+            let configurationFilePath: string = path.join(rootDirectory, subModules[i].textContent.trim().replace(/\.\.\//g, ''), PROJECT_FILE);
             let projectNature: string = Utils.getDirectoryType(configurationFilePath).trim();
 
             if (projectNature === SubDirectories.DATA_SOURCE) {

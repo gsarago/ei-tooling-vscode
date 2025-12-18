@@ -23,24 +23,21 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
       </plugin>
     </plugins>
   </build>
-  <profiles>
+    <profiles>
     <profile>
-      <id>Solution</id>
-      <build />
+      <id>test</id>
+      <properties>
+      </properties>
     </profile>
     <profile>
-      <id>Docker</id>
-      <build />
+      <id>preprod</id>
+      <properties>
+      </properties>
     </profile>
     <profile>
-      <id>Kubernetes</id>
-      <build />
+      <id>prod</id>
+      <properties>
+      </properties>
     </profile>
-    <profile>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build />
-    </profile>   
   </profiles>
 </project>
