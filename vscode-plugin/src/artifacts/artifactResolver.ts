@@ -15,7 +15,6 @@ Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 * specific language governing permissions and limitations
 * under the License.
 */
-
 import { QuickPickItem, window, workspace } from "vscode";
 import { ArtifactModule } from "./ArtifactModule";
 import {
@@ -290,9 +289,10 @@ export async function createProject() {
         window.showErrorMessage("Enter valid ESB Project Name!!");
         projectName = await showInputBox(ArtifactInfo.ESB_PROMPT_MESSAGE);
     }
-    await createCompositeProject(projectName + 'CompositeApplication');
-    await createESBProject(projectName + 'ESB');
-    await createRegistryResourcesProject(projectName + 'Registry');
+    await createParentProject(projectName);
+    await createCompositeProject(projectName);
+    await createESBProject(projectName);
+    await createRegistryResourcesProject(projectName);
 }
 
 export async function createESBProject(projectName?: string) {
@@ -321,6 +321,21 @@ export async function createCompositeProject(projectName?: string) {
 
     if (projectName && workspace.workspaceFolders) {
         Utils.CreateNewCompositeExporterProject(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
+    }
+
+}
+
+export async function createParentProject(projectName?: string) {
+    if (projectName === null) {
+        projectName = await showInputBox(ArtifactInfo.PARENT_PROMPT_MESSAGE);
+        while (typeof projectName !== "undefined" && !Utils.validate(projectName.trim())) {
+            window.showErrorMessage("Enter valid Parent Project Name!!");
+            projectName = await showInputBox(ArtifactInfo.PARENT_PROMPT_MESSAGE);
+        }
+    }
+
+    if (projectName && workspace.workspaceFolders) {
+        Utils.CreateNewParentProject(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
     }
 
 }

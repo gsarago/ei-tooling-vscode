@@ -57,7 +57,7 @@ export namespace ConnectorModule {
 
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
-            window.showErrorMessage("No root pom.xml found...!");
+            window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
             TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add connector module '${projectName}' to root pom.xml.`);
             return;
         }
@@ -70,7 +70,8 @@ export namespace ConnectorModule {
         connectorModule.textContent = projectName.trim();
 
         let append: boolean = false;
-
+        
+        rootDirectory = path.join(rootDirectory, "..");
         for (let i = 0; i < totalSubModules; i++) {
             let configurationFilePath: string = path.join(rootDirectory, subModules[i].textContent.trim(), PROJECT_FILE);
             let projectNature: string = Utils.getDirectoryType(configurationFilePath).trim();

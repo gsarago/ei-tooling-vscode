@@ -25,13 +25,14 @@ export class ServerRoleInfo {
 
 export class SubDirectories {
     static readonly MULTI_MODULE = "root";
-    static readonly COMPOSITE_EXPORTER: string = "CompositeExporter";
-    static readonly CONFIGS: string = "Configs";
+    static readonly COMPOSITE_EXPORTER: string = "CompositeApplication";
+    static readonly CONFIGS: string = "ESB";
     static readonly CONNECTOR_EXPORTER: string = "ConnectorExporter";
-    static readonly REGISTRY_RESOURCES: string = "RegistryResources";
+    static readonly REGISTRY_RESOURCES: string = "Registry";
     static readonly DATA_SERVICE: string = "DataServiceConfigs";
     static readonly DATA_SOURCE: string = "DataSourceConfigs";
     static readonly MEDIATOR_PROJECT: string = "MediatorProject";
+    static readonly PARENT: string = "Parent";
 }
 
 export class ProjectNatures {
@@ -352,8 +353,9 @@ export class RegistryResourceInfo {
 
 export class ArtifactInfo {
     static readonly ESB_PROMPT_MESSAGE: string = "Enter New ESB Project Name...";
-    static readonly COMPOSITE_EXPORTER_PROMPT_MESSAGE: string = "Enter New Composite Expoeter Project Name...";
+    static readonly COMPOSITE_EXPORTER_PROMPT_MESSAGE: string = "Enter New Composite Exporter Project Name...";
     static readonly REGISTRY_RESOURCES_PROMPT_MESSAGE: string = "Enter New Registry Resources Project Name...";
+    static readonly PARENT_PROMPT_MESSAGE: string = "Enter New Parent Project Name...";
 
     static artifactTypes: Map<string, string> = new Map();
     static setTypes() {

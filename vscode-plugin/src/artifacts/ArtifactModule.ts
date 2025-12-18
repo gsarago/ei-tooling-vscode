@@ -602,14 +602,14 @@ export namespace ArtifactModule {
             SubDirectories.CONFIGS, true, rootDirectory, ProjectNatures.CONFIGS);
 
         //check whether the project was created
-        let subDirectory: string = path.join(rootDirectory, projectName);
+        let subDirectory: string = path.join(rootDirectory, projectName + SubDirectories.CONFIGS);
         if (!fse.existsSync(subDirectory)) {
             TerminalModule.printLogMessage(`${subDirectory} does not exsits. Creating sub-folders for ESB project "${projectName}" aborted.`);
             return;
         }
 
         //create additional sub-directories
-        let metadataPath: string = path.join(rootDirectory, projectName, SRC, MAIN, RESOURECS, METADATA);
+        let metadataPath: string = path.join(rootDirectory, projectName + SubDirectories.CONFIGS, SRC, MAIN, RESOURECS, METADATA);
         file_system.mkdirSync(metadataPath, { recursive: true });
 
         let artifactSubFolders: string[] = [APIArtifactInfo.DESTINATION_FOLDER, EndpointArtifactInfo.DESTINATION_FOLDER, InboundEndpointArtifactInfo.DESTINATION_FOLDER,
@@ -617,7 +617,7 @@ export namespace ArtifactModule {
         SequenceArtifactInfo.DESTINATION_FOLDER, TaskArtifactInfo.DESTINATION_FOLDER, TemplateArtifactInfo.DESTINATION_FOLDER];
 
         for (let i = 0; i < artifactSubFolders.length; i++) {
-            let subFolderPath: string = path.join(rootDirectory, projectName, SRC, MAIN, SYNAPSE_CONFIG, artifactSubFolders[i].trim());
+            let subFolderPath: string = path.join(rootDirectory, projectName + SubDirectories.CONFIGS, SRC, MAIN, SYNAPSE_CONFIG, artifactSubFolders[i].trim());
             file_system.mkdirSync(subFolderPath, { recursive: true });
         }
     }
@@ -629,7 +629,7 @@ export namespace ArtifactModule {
 
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
-            window.showErrorMessage("No root pom.xml found...!");
+            window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
             TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add ESB module "${projectName}" to root pom.xml.`);
             return;
         }
@@ -643,6 +643,7 @@ export namespace ArtifactModule {
 
         let append: boolean = false;
 
+        rootDirectory = path.join(rootDirectory, "..");
         for (let i = 0; i < totalSubModules; i++) {
             let configurationFilePath: string = path.join(rootDirectory, subModules[i].textContent.trim(), PROJECT_FILE);
             let projectNature: string = Utils.getDirectoryType(configurationFilePath).trim();
@@ -692,7 +693,7 @@ export namespace ArtifactModule {
 
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
-            window.showErrorMessage("No root pom.xml found...!");
+            window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
             TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add Registry Resources module "${projectName}" to root pom.xml.`);
             return;
         }
@@ -706,6 +707,7 @@ export namespace ArtifactModule {
 
         let append: boolean = false;
 
+        rootDirectory = path.join(rootDirectory, "..");
         for (let i = 0; i < totalSubModules; i++) {
             let configurationFilePath: string = path.join(rootDirectory, subModules[i].textContent.trim(), PROJECT_FILE);
             let projectNature: string = Utils.getDirectoryType(configurationFilePath).trim();

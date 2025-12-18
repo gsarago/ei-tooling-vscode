@@ -139,7 +139,7 @@ export namespace ArchiveModule {
         commands.executeCommand('vscode.openFolder', Uri.file(newProjectDirectory), true);
     }
 
-    function createRootPomXml(directory: string, groupID: string, artifactID: string, version: string) {
+    export function createRootPomXml(directory: string, groupID: string, artifactID: string, version: string) {
 
         let templatePomFilePath: string = path.join(__dirname, "..", "..", TEMPLATES, POM, "rootPom.xml");
         let pomFilePath: string = path.join(directory, artifactID, POM_FILE);
@@ -159,7 +159,7 @@ export namespace ArchiveModule {
         Utils.createXmlFile(pomFilePath, rootPomXmlDoc);
     }
 
-    function createRootProjectNatureFile(directory: string, artifactId: string) {
+    export function createRootProjectNatureFile(directory: string, artifactId: string) {
 
         let templateFilePath: string = path.join(__dirname, "..", "..", TEMPLATES, CONF, "multiModuleProject.xml");
         let newFilePath: string = path.join(directory, artifactId, PROJECT_FILE);

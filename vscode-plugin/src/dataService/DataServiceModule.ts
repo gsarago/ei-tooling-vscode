@@ -61,7 +61,7 @@ export namespace DataServiceModule {
         //add dataservice module to root pom
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
-            window.showErrorMessage("No root pom.xml found...!");
+            window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
             TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add the ${projectName} to root pom.xml.`);
             return;
         }

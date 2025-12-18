@@ -32,6 +32,7 @@ import * as xml2js from "xml2js";
 import { ArtifactModule } from "../artifacts/ArtifactModule";
 import { MediatorProjectInfo } from "../mediatorProject/mediarorProjectUtils";
 import { TerminalModule } from "../logging/TerminalModule";
+import { ArchiveModule } from "../archive/ArchiveModule";
 
 export namespace Utils {
 
@@ -371,13 +372,26 @@ export namespace Utils {
             templateProjNatureFilePath, SubDirectories.COMPOSITE_EXPORTER, false, rootDirectory, ProjectNatures.COMPOSITE_EXPORTER);
     }
 
+    export async function CreateNewParentProject(rootDirectory: string, projectName: string) {
+
+        //create new sub-directory
+        //create pom.xml, artifact.xml and .project files
+        let templatePomFilePath: string = path.join(__dirname, "..", "..", TEMPLATES, POM, "rootPom.xml");
+        await createParentProject(projectName, "Maven Multi Module Project", templatePomFilePath, SubDirectories.PARENT, rootDirectory);
+
+    //create root pom.xml and .project files
+        //let version: string = "1.0.0";
+        //let groupId: string = "it.eng.cct.wso2."+projectName;
+        //ArchiveModule.createRootPomXml(rootDirectory, groupId, projectName, version);
+    }
+
     /**
     * Add Composite Exporter project into correct module possition in root pom.xml.
     */
     export function addCompositeExporterToRootPom(rootDirectory: string, projectName: string) {
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
-            window.showErrorMessage("No root pom.xml found...!");
+            window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
             TerminalModule.printLogMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
             return;
         }
@@ -601,6 +615,7 @@ export namespace Utils {
         templatePomXmlPath: string, createArtifactXml: boolean) {
 
         let rootDirectory: string = path.join(directory, "..");
+        rootDirectory = path.join(rootDirectory, projectName + SubDirectories.PARENT);
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         let pomFilePath: string = path.join(directory, POM_FILE);
         let project: Project = getProjectInfoFromPOM(rootPomFilePath);
@@ -652,6 +667,73 @@ export namespace Utils {
         }
     }
 
+     export function createParentConfigurationFiles(
+        artifactId: string, groupId: string, version: string,
+        projectName: string, directory: string,
+        templatePomXmlPath: string) {
+
+        let pomFilePath: string = path.join(directory, POM_FILE);
+        //let project: Project = getProjectInfoFromPOM(rootPomFilePath);
+
+        //add new pom.xml
+        const buff: Buffer = fse.readFileSync(templatePomXmlPath);
+        let pomXmlDoc = new DOM().parseFromString(buff.toString(), "text/xml");
+
+        let artifactIds = pomXmlDoc.getElementsByTagName(ARTIFACT_ID_TAG);
+        let groupIds = pomXmlDoc.getElementsByTagName(GROUP_ID_TAG);
+        let versions = pomXmlDoc.getElementsByTagName(VERSION_TAG);
+        let rootProjectName = pomXmlDoc.getElementsByTagName(NAME_TAG)[0];
+        let rootProjectDescription = pomXmlDoc.getElementsByTagName("description")[0];
+
+        //root
+        artifactIds[0].textContent = artifactId;
+        groupIds[0].textContent = groupId;
+        versions[0].textContent = version;
+        rootProjectName.textContent = projectName.trim();
+        rootProjectDescription.textContent = projectName.trim();
+
+        createXmlFile(pomFilePath, pomXmlDoc);
+    }
+
+    /**
+   * Can be used to create,
+   * Composite Exporter
+   * ESB Configs
+   * Registry Resources
+   * Connector Exporter &
+   * add it to root pom.xml.
+   */
+    export async function createParentProject(projectName: string, type: string, templatePomFilePath: string,
+        directoryType: string, rootDirectory: string) {
+
+        const currentDirectory: string = getDirectoryFromDirectoryType(directoryType, rootDirectory).trim();
+        if (currentDirectory !== "unidentified") {
+            let decision = await window.showWarningMessage(`WSO2 Enterprise Integrator Extension can not handle more than one ${type}, Do you want to continue?`, "Yes", "No");
+            if (decision && (decision.trim() === "Yes")) {
+                let newDirectory: string = path.join(rootDirectory, projectName + directoryType);
+                if (fse.existsSync(newDirectory)) {
+                    TerminalModule.printLogMessage(`${projectName + directoryType} project name already exists, creating ${type} aborted.`);
+                    window.showErrorMessage(`${type} name already exists!`);
+                    return;
+                }
+                fse.mkdirSync(newDirectory);
+                //add artifact.xml, pom.xml and .project
+                createParentConfigurationFiles('it.eng.cct.wso2.' + projectName, 'it.eng.cct.wso2', '1.0.0', projectName, newDirectory, templatePomFilePath);
+            }
+        }
+        else {
+            let newDirectory: string = path.join(rootDirectory, projectName + directoryType);
+            if (fse.existsSync(newDirectory)) {
+                TerminalModule.printLogMessage(`${projectName + directoryType} project name already exists, creating ${type} aborted.`);
+                window.showErrorMessage(`${type} name already exists!`);
+                return;
+            }
+            fse.mkdirSync(newDirectory);
+            //add artifact.xml, pom.xml and .project
+            createParentConfigurationFiles('it.eng.cct.wso2.' + projectName, 'it.eng.cct.wso2', '1.0.0', projectName, newDirectory, templatePomFilePath);
+        }
+    }
+
     /**
    * Can be used to create,
    * Composite Exporter
@@ -668,29 +750,29 @@ export namespace Utils {
         if (currentDirectory !== "unidentified") {
             let decision = await window.showWarningMessage(`WSO2 Enterprise Integrator Extension can not handle more than one ${type}, Do you want to continue?`, "Yes", "No");
             if (decision && (decision.trim() === "Yes")) {
-                let newDirectory: string = path.join(rootDirectory, projectName);
+                let newDirectory: string = path.join(rootDirectory, projectName + directoryType);
                 if (fse.existsSync(newDirectory)) {
-                    TerminalModule.printLogMessage(`${projectName} project name already exists, creating ${type} aborted.`);
+                    TerminalModule.printLogMessage(`${projectName + directoryType} project name already exists, creating ${type} aborted.`);
                     window.showErrorMessage(`${type} name already exists!`);
                     return;
                 }
                 fse.mkdirSync(newDirectory);
                 //add artifact.xml, pom.xml and .project
                 createConfigurationFiles(projectName, newDirectory, templateProjNatureFilePath, templatePomFilePath, createArtifactXml);
-                addProjectToRootPom(projectName, projectNature, rootDirectory);
+                addProjectToRootPom(projectName + directoryType, projectNature, path.join(rootDirectory, projectName + SubDirectories.PARENT));
             }
         }
         else {
-            let newDirectory: string = path.join(rootDirectory, projectName);
+            let newDirectory: string = path.join(rootDirectory, projectName + directoryType);
             if (fse.existsSync(newDirectory)) {
-                TerminalModule.printLogMessage(`${projectName} project name already exists, creating ${type} aborted.`);
+                TerminalModule.printLogMessage(`${projectName + directoryType} project name already exists, creating ${type} aborted.`);
                 window.showErrorMessage(`${type} name already exists!`);
                 return;
             }
             fse.mkdirSync(newDirectory);
             //add artifact.xml, pom.xml and .project
             createConfigurationFiles(projectName, newDirectory, templateProjNatureFilePath, templatePomFilePath, createArtifactXml);
-            addProjectToRootPom(projectName, projectNature, rootDirectory);
+            addProjectToRootPom(projectName + directoryType, projectNature, path.join(rootDirectory, projectName + SubDirectories.PARENT));
         }
     }
 
