@@ -23,7 +23,7 @@ import { ArchetypeModule } from "./archetype/ArchetypeModule";
 import { DataServiceModule } from './dataService/DataServiceModule';
 import { MediatorProjectModule } from './mediatorProject/MediatorProjectModule';
 import { ConnectorModule } from './connector/ConnectorModule';
-import { createArtifact, createESBProject, createCompositeProject, createRegistryResourcesProject } from "./artifacts/artifactResolver";
+import { createArtifact, createESBProject, createCompositeProject, createRegistryResourcesProject, createProject } from "./artifacts/artifactResolver";
 import { createDataServiceProject, createNewDataService } from "./dataService/dataServiceResolver";
 import { createMediatorProject } from './mediatorProject/mediatorProjectResolver';
 import { addNewConnectorFromStore, addNewConnectorExporter, addNewConnectorFromFileSystem } from './connector/connectorResolver';
@@ -147,8 +147,8 @@ function registerSynapseCommands(context: ExtensionContext) {
             }
         }));
 
-    context.subscriptions.push(commands.registerCommand("wso2ei.project.create", async () => {
-        await ArchetypeModule.createESBProject();
+    context.subscriptions.push(commands.registerCommand("wso2ei.project.create", async () => {        
+        await createProject();
     }));
     context.subscriptions.push(commands.registerCommand("wso2ei.project.build", async () => {
         createDeployableArchive();

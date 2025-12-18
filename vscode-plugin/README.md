@@ -103,3 +103,10 @@ Open the Command Palette ( [Command] + [Shift] + [P] on macOS and [Ctrl] + [Shif
 ## License:
 
 WSO2 EI Tooling VSCode is licensed under [Apache license 2.0](https://github.com/wso2/ei-tooling-vscode/blob/master/LICENSE).
+
+## To Build the extension
+
+Install vsce 1.22.0 ad execute "vsce package"
+
+## Requirements
+1) Node 10.15.x

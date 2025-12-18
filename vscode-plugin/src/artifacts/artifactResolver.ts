@@ -284,12 +284,24 @@ export interface RegistryResource {
     mediaType?: any;
 }
 
-export async function createESBProject() {
+export async function createProject() {
     let projectName = await showInputBox(ArtifactInfo.ESB_PROMPT_MESSAGE);
-
     while (typeof projectName !== "undefined" && !Utils.validate(projectName.trim())) {
         window.showErrorMessage("Enter valid ESB Project Name!!");
         projectName = await showInputBox(ArtifactInfo.ESB_PROMPT_MESSAGE);
+    }
+    await createCompositeProject(projectName + 'CompositeApplication');
+    await createESBProject(projectName + 'ESB');
+    await createRegistryResourcesProject(projectName + 'Registry');
+}
+
+export async function createESBProject(projectName?: string) {
+    if (projectName === null) {
+        projectName = await showInputBox(ArtifactInfo.ESB_PROMPT_MESSAGE);
+        while (typeof projectName !== "undefined" && !Utils.validate(projectName.trim())) {
+            window.showErrorMessage("Enter valid ESB Project Name!!");
+            projectName = await showInputBox(ArtifactInfo.ESB_PROMPT_MESSAGE);
+        }
     }
 
     if (projectName && workspace.workspaceFolders) {
@@ -298,12 +310,13 @@ export async function createESBProject() {
 
 }
 
-export async function createCompositeProject() {
-    let projectName = await showInputBox(ArtifactInfo.COMPOSITE_EXPORTER_PROMPT_MESSAGE);
-
-    while (typeof projectName !== "undefined" && !Utils.validate(projectName.trim())) {
-        window.showErrorMessage("Enter valid Composite Exporter Project Name!!");
+export async function createCompositeProject(projectName?: string) {
+    if (projectName === null) {
         projectName = await showInputBox(ArtifactInfo.COMPOSITE_EXPORTER_PROMPT_MESSAGE);
+        while (typeof projectName !== "undefined" && !Utils.validate(projectName.trim())) {
+            window.showErrorMessage("Enter valid Composite Exporter Project Name!!");
+            projectName = await showInputBox(ArtifactInfo.COMPOSITE_EXPORTER_PROMPT_MESSAGE);
+        }
     }
 
     if (projectName && workspace.workspaceFolders) {
@@ -312,12 +325,13 @@ export async function createCompositeProject() {
 
 }
 
-export async function createRegistryResourcesProject() {
-    let projectName = await showInputBox(ArtifactInfo.REGISTRY_RESOURCES_PROMPT_MESSAGE);
-
-    while (typeof projectName !== "undefined" && !Utils.validate(projectName.trim())) {
-        window.showErrorMessage("Enter valid Registry Resources Project Name!!");
+export async function createRegistryResourcesProject(projectName?: string) {
+    if (projectName === null) {
         projectName = await showInputBox(ArtifactInfo.REGISTRY_RESOURCES_PROMPT_MESSAGE);
+        while (typeof projectName !== "undefined" && !Utils.validate(projectName.trim())) {
+            window.showErrorMessage("Enter valid Registry Resources Project Name!!");
+            projectName = await showInputBox(ArtifactInfo.REGISTRY_RESOURCES_PROMPT_MESSAGE);
+        }
     }
 
     if (projectName && workspace.workspaceFolders) {
