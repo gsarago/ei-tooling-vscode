@@ -56,7 +56,7 @@ export namespace DataServiceModule {
         //create artifact.xml, pom.xml and .project
         let templatePomFilePath: string = path.join(__dirname, "..", "..", TEMPLATES, POM, "DataServiceConfigsPom.xml");
         let templateProjNatureFilePath: string = path.join(__dirname, "..", "..", TEMPLATES, CONF, "dataService.xml")
-        Utils.createConfigurationFiles(projectName, dSConfigsDirectory, templateProjNatureFilePath, templatePomFilePath, true);
+        Utils.createConfigurationFiles(projectName, SubDirectories.DATA_SERVICE, dSConfigsDirectory, templateProjNatureFilePath, templatePomFilePath, true);
 
         //add dataservice module to root pom
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);

@@ -611,7 +611,7 @@ export namespace Utils {
     /**
    * Create pom.xml, artifact.xml, and .project files for newly created project.
    */
-    export function createConfigurationFiles(projectName: string, directory: string, templateProjectNaturePath: string,
+    export function createConfigurationFiles(projectName: string, directoryType: string, directory: string, templateProjectNaturePath: string,
         templatePomXmlPath: string, createArtifactXml: boolean) {
 
         let rootDirectory: string = path.join(directory, "..");
@@ -636,11 +636,11 @@ export namespace Utils {
         versions[0].textContent = project.version;
 
         //child
-        artifactIds[1].textContent = projectName.trim();
+        artifactIds[1].textContent = projectName.trim() + directoryType;
         groupIds[1].textContent = project.groupId;
         versions[1].textContent = project.version;
-        childProjectName.textContent = projectName.trim();
-        childProjectDescription.textContent = projectName.trim();
+        childProjectName.textContent = projectName.trim() + directoryType;
+        childProjectDescription.textContent = projectName.trim() + directoryType;
 
         createXmlFile(pomFilePath, pomXmlDoc);
 
@@ -650,7 +650,7 @@ export namespace Utils {
         let projectNature = new DOM().parseFromString(buf.toString(), "text/xml");
 
         let name = projectNature.getElementsByTagName(NAME_TAG)[0];
-        name.textContent = projectName.trim();
+        name.textContent = projectName.trim() + directoryType;
 
         let projectNatureFilePath: string = path.join(directory, PROJECT_FILE);
         createXmlFile(projectNatureFilePath, projectNature);
@@ -758,7 +758,7 @@ export namespace Utils {
                 }
                 fse.mkdirSync(newDirectory);
                 //add artifact.xml, pom.xml and .project
-                createConfigurationFiles(projectName, newDirectory, templateProjNatureFilePath, templatePomFilePath, createArtifactXml);
+                createConfigurationFiles(projectName, directoryType, newDirectory, templateProjNatureFilePath, templatePomFilePath, createArtifactXml);
                 addProjectToRootPom(projectName + directoryType, projectNature, path.join(rootDirectory, projectName + SubDirectories.PARENT));
             }
         }
@@ -771,7 +771,7 @@ export namespace Utils {
             }
             fse.mkdirSync(newDirectory);
             //add artifact.xml, pom.xml and .project
-            createConfigurationFiles(projectName, newDirectory, templateProjNatureFilePath, templatePomFilePath, createArtifactXml);
+            createConfigurationFiles(projectName, directoryType, newDirectory, templateProjNatureFilePath, templatePomFilePath, createArtifactXml);
             addProjectToRootPom(projectName + directoryType, projectNature, path.join(rootDirectory, projectName + SubDirectories.PARENT));
         }
     }
