@@ -609,8 +609,8 @@ export namespace ArtifactModule {
         }
 
         //create additional sub-directories
-        let metadataPath: string = path.join(rootDirectory, projectName + SubDirectories.CONFIGS, SRC, MAIN, RESOURECS, METADATA);
-        file_system.mkdirSync(metadataPath, { recursive: true });
+        //let metadataPath: string = path.join(rootDirectory, projectName + SubDirectories.CONFIGS, SRC, MAIN, RESOURECS, METADATA);
+        //file_system.mkdirSync(metadataPath, { recursive: true });
 
         let artifactSubFolders: string[] = [APIArtifactInfo.DESTINATION_FOLDER, EndpointArtifactInfo.DESTINATION_FOLDER, InboundEndpointArtifactInfo.DESTINATION_FOLDER,
         LocalEntryArtifactInfo.DESTINATION_FOLDER, MessageProcessorArtifactInfo.DESTINATION_FOLDER, MessageStoreArtifactInfo.DESTINATION_FOLDER, ProxyArtifactInfo.PROXY_DESTINATION_FOLDER,
