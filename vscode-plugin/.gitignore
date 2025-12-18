@@ -219,7 +219,6 @@ typings/
 
 ### VisualStudioCode ###
 !.vscode
-*.vsix
 .vscode-test/
 
 ### VisualStudioCode Patch ###
