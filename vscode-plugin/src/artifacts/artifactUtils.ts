@@ -100,6 +100,24 @@ export class ProxyArtifactInfo {
     static readonly PROXY_LABEL: string = "Proxy";
 }
 
+export class ProxyTCPArtifactInfo {
+    static readonly ARTIFACT_TYPE: string = "proxytcp";
+    static readonly PLACEHOLDER: string = "Select an Proxy TCP Artifact Creation Option...";
+    static readonly PROMPT_MESSAGE: string = "Enter Proxy TCP artifact name...";
+    static readonly TYPE: string = "synapse/proxy-service";
+    static readonly PROXY_DESTINATION_FOLDER: string = "proxy-services";
+    static readonly PROXY_LABEL: string = "ProxyTCP";
+}
+
+export class ProxyFHIRArtifactInfo {
+    static readonly ARTIFACT_TYPE: string = "proxyfhir";
+    static readonly PLACEHOLDER: string = "Select an Proxy FHIR Artifact Creation Option...";
+    static readonly PROMPT_MESSAGE: string = "Enter Proxy FHIR artifact name...";
+    static readonly TYPE: string = "synapse/proxy-service";
+    static readonly PROXY_DESTINATION_FOLDER: string = "proxy-services";
+    static readonly PROXY_LABEL: string = "ProxyFHIR";
+}
+
 export class EndpointArtifactInfo {
     static readonly ARTIFACT_TYPE: string = "endpoint";
     static readonly PLACEHOLDER: string = "Select an Endpoint Artifact Creation Option...";

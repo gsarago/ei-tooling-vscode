@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<proxy name="SampleProxy" statistics="enable" trace="enable" startOnLoad="true" transports="fhir" xmlns="http://ws.apache.org/ns/synapse">
+    <target>
+        <inSequence>
+            <log category="WARN" level="custom">
+				<property name="start" value="SampleProxy inSequence Start" />
+			</log>
+            <log level="full" category="DEBUG"></log>
+            <property xmlns:ns="http://hl7.org/fhir" name="eventCoding"
+				expression="//ns:MessageHeader/ns:eventCoding/ns:code/@value">
+			</property>
+			<property xmlns:ns="http://hl7.org/fhir" name="sourceName"
+				expression="//ns:MessageHeader/ns:source/ns:name/@value">
+			</property>
+			<property xmlns:ns="http://hl7.org/fhir" name="sourceEndpoint"
+				expression="//ns:MessageHeader/ns:source/ns:endpoint/@value">
+			</property>
+			<property xmlns:ns="http://hl7.org/fhir" name="destinationName"
+				expression="//ns:MessageHeader/ns:destination/ns:name/@value">
+			</property>
+			<property xmlns:ns="http://hl7.org/fhir" name="destinationEndpoint"
+				expression="//ns:MessageHeader/ns:destination/ns:endpoint/@value">
+			</property>
+
+			<property xmlns:ns="http://hl7.org/fhir" name="messageHeaderDestination"
+				expression="//ns:Bundle/ns:entry/ns:resource/ns:MessageHeader/ns:destination/ns:endpoint/@value">
+			</property>
+			<property xmlns:ns="http://hl7.org/fhir" name="messageHeaderId"
+				expression="//ns:Bundle/ns:entry/ns:resource/ns:MessageHeader/ns:id/@value">
+			</property>
+            <!-- Add FHIR-specific mediation logic here -->
+            <property name="ContentType" value="text/xml" scope="axis2" />
+			<header name="Accept" scope="transport" value="text/xml" />
+            <property name="CONTENT_TYPE" value="text/xml" scope="axis2" type="STRING"/>
+            <send>
+				<endpoint>
+					<!--<address
+						uri="${it.eng.cct.fhir.defineName.ascom.digistat.endpoint}" format="soap11">
+					 <timeout>
+						   <duration>300000</duration>
+						   <responseAction>fault</responseAction>
+						</timeout>
+					    <suspendOnFailure>
+						  <errorCodes>-1</errorCodes>
+						  <initialDuration>0</initialDuration>
+						  <progressionFactor>1.0</progressionFactor>
+						  <maximumDuration>0</maximumDuration>
+						</suspendOnFailure>
+						<markForSuspension>
+						  <errorCodes>-1</errorCodes>
+						</markForSuspension>
+					</address>-->
+				</endpoint>
+			</send>
+        </inSequence>
+        <outSequence>
+            <log category="WARN" level="custom">
+				<property name="start"
+					value="SampleProxy outSequence Start" />
+			</log>
+			<log level="full" category="DEBUG"/>
+            <!-- Define script mediation login here -->
+            <log category="DEBUG" level="full">
+				<property name="start"
+					value="before calling freemarker mediator in order to transform hl7 ack message into fhir message" />
+			</log>
+            <!-- Define outflow mediation logic here -->
+            <property name="ContentType" value="application/fhir+xml" scope="axis2"/>
+            <respond />
+        </outSequence>
+        <faultSequence>
+            <log category="WARN" level="custom">
+				<property name="start"
+					value="SampleProxy faultSequence Start" />
+			</log>
+			<log level="full" category="DEBUG">
+			</log>
+            <log level="custom" category="ERROR">
+				<property name="text" value="An unexpected error occurred" />
+				<property name="message" expression="$ctx:ERROR_MESSAGE" />
+				<property name="code" expression="$ctx:ERROR_CODE" />
+				<property name="detail" expression="$ctx:ERROR_DETAIL" />
+				<property name="exception"
+					expression="$ctx:ERROR_EXCEPTION" />
+			</log>
+            <!-- Define error handling mediation logic here -->
+            <respond />
+        </faultSequence>
+    </target>
+    <parameter name="fhir.transport.endpoint.interactions">SYSTEM|EXTENDED-OPERATION-SERVER</parameter>
+	<parameter name="fhir.transport.endpoint.operation.id">PROCESS-MESSAGE</parameter>
+	<parameter name="fhir.transport.endpoint.operation.process-message.eventCoding.system">http://ihub.eng.it/fhir/message-events</parameter>
+	<parameter name="fhir.transport.endpoint.operation.process-message.eventCoding.code">
+        <!--Define code here-->
+    </parameter>
+	<parameter name="fhir.transport.endpoint.operation.process-message.source.endpoint">
+        <!--Define source endpoint here-->    
+    </parameter>
+	<parameter name="fhir.transport.endpoint.operation.process-message.destination.endpoint">
+        <!--Define destination endpoint here-->
+    </parameter>
+</proxy>

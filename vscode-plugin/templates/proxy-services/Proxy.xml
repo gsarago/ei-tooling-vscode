@@ -3,17 +3,60 @@
 <proxy name="SampleProxy" statistics="enable" trace="enable" startOnLoad="true" transports="http https" xmlns="http://ws.apache.org/ns/synapse">
     <target>
         <inSequence>
+            <log category="WARN" level="custom">
+				<property name="start" value="SampleProxy inSequence Start" />
+			</log>
+            <log level="full" category="DEBUG"/>
             <!-- Define inflow mediation logic here -->
-            <log level="custom">
-                <property name="status" value="message received"/>
-            </log>
-            <drop/>
+            <log category="DEBUG" level="full">
+				<property name="start"
+					value="after calling freemarker mediator in order to transform hl7 message into fhir message about SampleProxy" />
+			</log>
+            <property name="ContentType" value="application/fhir+xml" scope="axis2" />
+            <header name="Accept" scope="transport" value="application/fhir+xml" action="set"/>
+		    <header name="reg-id" value="reg-sovraadt" scope="transport" action="set"/>
+		    <property name="CONTENT_TYPE" value="application/fhir+xml" scope="axis2" type="STRING"/>
+		    <property name="messageType" value="application/fhir+xml" scope="axis2"/>
+            <property name="HTTP_METHOD" scope="axis2" type="STRING" value="POST"/>
+		    <send>
+				<endpoint>
+					<!--address
+						uri="${it.eng.cct.definename.ihub.endpoint}/$process-message"
+						format="rest"/-->
+				</endpoint>
+		    </send> 
         </inSequence>
         <outSequence>
+            <log category="DEBUG" level="full">
+				<property name="start"
+					value="before calling freemarker mediator in order to transform fhir ack message into hl7 ack message about SampleProxy" />
+			</log>
             <!-- Define outflow mediation logic here -->
+            <log category="DEBUG" level="full">
+				<property name="start"
+					value="after calling freemarker mediator in order to transform fhir ack message into hl7 ack message about SampleProxy" />
+			</log>
+            <respond />
         </outSequence>
         <faultSequence>
+            <log level="custom" category="ERROR">
+                <property name="text" value="An unexpected error occurred" />
+                <property name="message" expression="$ctx:ERROR_MESSAGE" />
+                <property name="code" expression="$ctx:ERROR_CODE" />
+                <property name="detail" expression="$ctx:ERROR_DETAIL" />
+                <property name="exception"
+                    expression="$ctx:ERROR_EXCEPTION" />
+			</log>
+			<property name="FHIR_ERROR_MESSAGE" scope="axis2"
+				type="STRING" expression="get-property('ERROR_MESSAGE')" />
+			<property name="FHIR_ERROR_EXCEPTION" scope="axis2"
+				type="STRING" expression="get-property('ERROR_EXCEPTION')" />
+			<property name="FHIR_ERROR_DETAIL" scope="axis2"
+				type="STRING" expression="get-property('ERROR_DETAIL')" />
+			<property name="FHIR_ERROR_CODE" scope="axis2" type="STRING"
+				expression="get-property('ERROR_CODE')" />
             <!-- Define error handling mediation logic here -->
+            <respond />
         </faultSequence>
     </target>
 </proxy>

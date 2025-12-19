@@ -35,6 +35,8 @@ import {
     MessageProcessorArtifactInfo,
     MessageStoreArtifactInfo,
     ProxyArtifactInfo,
+    ProxyFHIRArtifactInfo,
+    ProxyTCPArtifactInfo,
     RegistryResourceInfo,
     SequenceArtifactInfo,
     TaskArtifactInfo,
@@ -181,6 +183,16 @@ function registerSynapseCommands(context: ExtensionContext) {
     context.subscriptions.push(commands.registerCommand("wso2ei.artifact.proxy", async (Uri: Uri | undefined) => {
         let filePath: string | undefined = checkUriExistence(Uri);
         await createArtifact(ProxyArtifactInfo.ARTIFACT_TYPE, filePath);
+    }));
+
+    context.subscriptions.push(commands.registerCommand("wso2ei.artifact.proxytcp", async (Uri: Uri | undefined) => {
+        let filePath: string | undefined = checkUriExistence(Uri);
+        await createArtifact(ProxyTCPArtifactInfo.ARTIFACT_TYPE, filePath);
+    }));
+
+    context.subscriptions.push(commands.registerCommand("wso2ei.artifact.proxyfhir", async (Uri: Uri | undefined) => {
+        let filePath: string | undefined = checkUriExistence(Uri);
+        await createArtifact(ProxyFHIRArtifactInfo.ARTIFACT_TYPE, filePath);
     }));
 
     context.subscriptions.push(commands.registerCommand("wso2ei.artifact.endpoint", async (Uri: Uri | undefined) => {

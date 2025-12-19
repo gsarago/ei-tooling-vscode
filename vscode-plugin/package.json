@@ -32,6 +32,8 @@
 		"onCommand:wso2ei.language.change",
 		"onCommand:wso2ei.artifact.api",
 		"onCommand:wso2ei.artifact.proxy",
+		"onCommand:wso2ei.artifact.proxytcp",
+		"onCommand:wso2ei.artifact.proxyfhir",
 		"onCommand:wso2ei.artifact.endpoint",
 		"onCommand:wso2ei.artifact.inboundEndpoint",
 		"onCommand:wso2ei.artifact.localEntry",
@@ -160,7 +162,17 @@
 			},
 			{
 				"command": "wso2ei.artifact.proxy",
-				"title": "Create New Proxy",
+				"title": "Create Inbound HTTP Proxy",
+				"category": "WSO2EI"
+			},
+			{
+				"command": "wso2ei.artifact.proxytcp",
+				"title": "Create Inbound TCP Proxy",
+				"category": "WSO2EI"
+			},
+			{
+				"command": "wso2ei.artifact.proxyfhir",
+				"title": "Create Outbound Proxy",
 				"category": "WSO2EI"
 			},
 			{
@@ -308,6 +320,16 @@
 				},
 				{
 					"command": "wso2ei.artifact.proxy",
+					"when": "resourceFilename =~ /^proxy-services$/",
+					"group": "2_workspace"
+				},
+				{
+					"command": "wso2ei.artifact.proxytcp",
+					"when": "resourceFilename =~ /^proxy-services$/",
+					"group": "2_workspace"
+				},
+				{
+					"command": "wso2ei.artifact.proxyfhir",
 					"when": "resourceFilename =~ /^proxy-services$/",
 					"group": "2_workspace"
 				},

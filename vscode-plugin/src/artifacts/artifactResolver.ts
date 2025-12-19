@@ -29,7 +29,9 @@ import {
     SequenceArtifactInfo,
     TaskArtifactInfo,
     TemplateArtifactInfo,
-    ArtifactInfo
+    ArtifactInfo,
+    ProxyTCPArtifactInfo,
+    ProxyFHIRArtifactInfo
 } from "./artifactUtils";
 import { showInputBox, showQuickPick } from "../utils/uiUtils";
 import { Utils } from "../utils/Utils";
@@ -61,6 +63,34 @@ export async function createArtifact(artifactType: string, targetFolderPath: str
             if (artifactName) {
                 ArtifactModule.createArtifact(targetFolderPath, ProxyArtifactInfo.PROXY_DESTINATION_FOLDER, ProxyArtifactInfo.PROXY_LABEL,
                     artifactName.trim(), artifactType, ProxyArtifactInfo.TYPE);
+            }
+            break;
+        }
+        case ProxyTCPArtifactInfo.ARTIFACT_TYPE: {
+            let artifactName = await showInputBox(ProxyTCPArtifactInfo.PROMPT_MESSAGE);
+
+            while (typeof artifactName !== "undefined" && !Utils.validate(artifactName.trim())) {
+                window.showErrorMessage("Enter valid artifact name!!");
+                artifactName = await showInputBox(ProxyTCPArtifactInfo.PROMPT_MESSAGE);
+            }
+
+            if (artifactName) {
+                ArtifactModule.createArtifact(targetFolderPath, ProxyTCPArtifactInfo.PROXY_DESTINATION_FOLDER, ProxyTCPArtifactInfo.PROXY_LABEL,
+                    artifactName.trim(), artifactType, ProxyTCPArtifactInfo.TYPE);
+            }
+            break;
+        }
+        case ProxyFHIRArtifactInfo.ARTIFACT_TYPE: {
+            let artifactName = await showInputBox(ProxyFHIRArtifactInfo.PROMPT_MESSAGE);
+
+            while (typeof artifactName !== "undefined" && !Utils.validate(artifactName.trim())) {
+                window.showErrorMessage("Enter valid artifact name!!");
+                artifactName = await showInputBox(ProxyFHIRArtifactInfo.PROMPT_MESSAGE);
+            }
+
+            if (artifactName) {
+                ArtifactModule.createArtifact(targetFolderPath, ProxyFHIRArtifactInfo.PROXY_DESTINATION_FOLDER, ProxyFHIRArtifactInfo.PROXY_LABEL,
+                    artifactName.trim(), artifactType, ProxyFHIRArtifactInfo.TYPE);
             }
             break;
         }
