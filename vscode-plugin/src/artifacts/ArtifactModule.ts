@@ -435,10 +435,10 @@ export namespace ArtifactModule {
             Utils.updateCompositePomXml(compositeExporterDirectory, swaggerArtifactName, MetadataInfo.SYNAPSE_MEATADATA_TYPE, serverRole, finalGroupId);
         }
         else if (type === ProxyArtifactInfo.TYPE) {
-            finalGroupId = `${groupId}.${METADATA}`;
+            //finalGroupId = `${groupId}.${METADATA}`;
             //metadata
-            let metadataArtifactName: string = artifactName + "_proxy_" + METADATA;
-            Utils.updateCompositePomXml(compositeExporterDirectory, metadataArtifactName, MetadataInfo.SYNAPSE_MEATADATA_TYPE, serverRole, finalGroupId);
+            //let metadataArtifactName: string = artifactName + "_proxy_" + METADATA;
+            //Utils.updateCompositePomXml(compositeExporterDirectory, metadataArtifactName, MetadataInfo.SYNAPSE_MEATADATA_TYPE, serverRole, finalGroupId);
         }
     }
 
