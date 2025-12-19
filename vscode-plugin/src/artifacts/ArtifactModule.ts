@@ -63,6 +63,7 @@ export namespace ArtifactModule {
             let esbConfigsDirectory: string;
             let directoryPattern: string = path.join(SRC, MAIN, SYNAPSE_CONFIG);
             let rootDirectory: string = workspace.workspaceFolders[0].uri.fsPath;
+            let parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.PARENT, rootDirectory).trim();
             if (typeof pathToTargetFolder === "undefined") {
                 esbConfigsDirectory = Utils.getDirectoryFromDirectoryType(SubDirectories.CONFIGS,
                     rootDirectory).trim();
@@ -91,9 +92,11 @@ export namespace ArtifactModule {
             Utils.checkPathExistence(targetArtifactFolderPath).then(exists => {
                 if (exists) {
                     createArtifactFromTemplate(esbConfigsDirectory, targetFolder, templateFileName, targetArtifactName, artifactType, type,
-                        targetArtifactFolderPath, SYNAPSE_CONFIG, undefined);
+                        targetArtifactFolderPath, SYNAPSE_CONFIG, undefined, parentDirectory);
                 }
             });
+
+
         }
         else {
             let message: string = "No workspace folder found";
@@ -112,6 +115,7 @@ export namespace ArtifactModule {
             let rootDirectory: string = workspace.workspaceFolders[0].uri.fsPath;
             const registryResourceSubDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.REGISTRY_RESOURCES,
                 rootDirectory);
+            const parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.PARENT, rootDirectory).trim();
             // Check if the path really exists. If not exists, the project is not a standard Synapse muilti-module Project
             Utils.checkPathExistence(registryResourceSubDirectory).then(exists => {
                 if (exists) {
@@ -126,7 +130,7 @@ export namespace ArtifactModule {
                     }
 
                     createArtifactFromTemplate(registryResourceSubDirectory, targetFolder, templateFileName, targetArtifactName, artifactType, type,
-                        registryResourceSubDirectory, "registry-resources", registryResource);
+                        registryResourceSubDirectory, "registry-resources", registryResource, parentDirectory);
                 }
                 else {
                     window.showErrorMessage("No Registry Resources project found, resource creation aborted");
@@ -146,7 +150,7 @@ export namespace ArtifactModule {
     */
     function createArtifactFromTemplate(subDirectory: string, targetFolder: string, templateFileName: string, targetArtifactName: string,
         artifactType: string, type: string, pathToTargetFolder: string, resourceType: string,
-        registryResource: RegistryResource | undefined) {
+        registryResource: RegistryResource | undefined, parentDirectory: string) {
 
         let rootDirectory: string = path.join(subDirectory, "..");
 
@@ -232,8 +236,7 @@ export namespace ArtifactModule {
 
                     createTargetArtifactFromTemplate(targetArtifactFileUri, targetArtifactName,
                         templateArtifactFilePath, artifactType, registryResource);
-                    //TODO questo non sta funzionando
-                    addNewArtifactToArtifactXmlFile(subDirectory, targetArtifactName, targetFolder, type);
+                    addNewArtifactToArtifactXmlFile(subDirectory, targetArtifactName, targetFolder, type, parentDirectory);
                     updateCompositePomXmlFile(rootDirectory, targetArtifactName, type);
                 }
             });
@@ -329,16 +332,23 @@ export namespace ArtifactModule {
      * Add artifact info of the newly created artifact to synapse-config artifact.xml file.
      * Create dependancy and property in CompositeExporter pom.xml
      */
-    function addNewArtifactToArtifactXmlFile(esbConfigsDirectory: string, artifactName: string, targetFolder: string, type: string) {
+    function addNewArtifactToArtifactXmlFile(esbConfigsDirectory: string, artifactName: string, targetFolder: string, type: string, parentDirectory: string) {
 
-        const pomFile: string = path.join(esbConfigsDirectory, "..", POM_FILE);
+        if (parentDirectory === "unidentified") {
+            window.showErrorMessage(`Parent directory does not exists, adding ${artifactName} to artifcat.xml aborted.`);
+            TerminalModule.printLogMessage(`Parent directory does not exists, adding ${artifactName} to artifcat.xml aborted.`);
+            return;
+        }
+        const pomFile: string = path.join(parentDirectory, POM_FILE);
         const configArtifactXmlFileLocation: string = path.join(esbConfigsDirectory, ARTIFACT_FILE);
         if (!fse.existsSync(pomFile)) {
+            window.showErrorMessage(`${pomFile} does not exists, adding ${artifactName} to artifcat.xml aborted.`);
             TerminalModule.printLogMessage(`${pomFile} does not exists, adding ${artifactName} to artifcat.xml aborted.`);
             return;
         }
 
         if (!fse.existsSync(configArtifactXmlFileLocation)) {
+            window.showErrorMessage(`${configArtifactXmlFileLocation} does not exists, adding ${artifactName} to artifcat.xml aborted.`);
             TerminalModule.printLogMessage(`${configArtifactXmlFileLocation} does not exists, adding ${artifactName} to artifcat.xml aborted.`);
             return;
         }
@@ -373,7 +383,7 @@ export namespace ArtifactModule {
         }
         else if (type === ProxyArtifactInfo.TYPE) {
 
-            finalGroupId = `${groupId}.proxy-service.${METADATA}`;
+            /*finalGroupId = `${groupId}.proxy-service.${METADATA}`;
 
             //metadata
             let metaDataName: string = `${artifactName}_proxy_${METADATA}`;
@@ -381,7 +391,7 @@ export namespace ArtifactModule {
 
             Utils.addArtifactToArtifactXml(configArtifactXmlFileLocation, metaDataName, finalGroupId, VERSION, MetadataInfo.SYNAPSE_MEATADATA_TYPE,
                 ServerRoleInfo.ENTERPRISE_SERVICE_BUS, metaDataFilePath, undefined,
-                undefined, undefined);
+                undefined, undefined);*/
         }
     }
 
