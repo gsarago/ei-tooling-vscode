@@ -35,12 +35,14 @@ export class Runner {
         this._process = spawn(command, args, { cwd: cwd, shell: true });
 
         this._process.stdout.on('data', (data) => {
-            mavenOutputChannel.append(data.toString());
+            const cleanedData = data.toString().replace(/\x1B\[[0-?9;]*[mK]/g, '');
+            mavenOutputChannel.append(cleanedData);
         });
 
         this._process.stderr.on('data', (data) => {
-            mavenOutputChannel.append(data.toString());
-            TerminalModule.printLogMessage(data.toString());
+            const cleanedData = data.toString().replace(/\x1B\[[0-?9;]*[mK]/g, '');
+            mavenOutputChannel.append(cleanedData);
+            TerminalModule.printLogMessage(cleanedData);
         });
 
         this._process.on("exit", (code) => {
