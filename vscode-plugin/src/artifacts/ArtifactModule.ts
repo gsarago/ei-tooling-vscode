@@ -57,27 +57,19 @@ export namespace ArtifactModule {
     export function createArtifact(pathToTargetFolder: string | undefined, targetFolder: string, templateFileName: string,
         targetArtifactName: string, artifactType: string, type: string) {
 
+        if (typeof pathToTargetFolder === "undefined") {
+            window.showErrorMessage("No ESB Configs project found, artifact creation aborted...!");
+            TerminalModule.printLogMessage(`No ESB Configs project found, ESB artifact ${targetArtifactName} creation aborted.`);
+            return;
+        }
+
         if (workspace.workspaceFolders) {
 
-            let targetArtifactFolderPath: string;
-            let esbConfigsDirectory: string;
             let directoryPattern: string = path.join(SRC, MAIN, SYNAPSE_CONFIG);
-            let rootDirectory: string = workspace.workspaceFolders[0].uri.fsPath;
+            let esbConfigsDirectory: string = pathToTargetFolder.split(`${path.sep}${directoryPattern}`)[0];;
+            let targetArtifactFolderPath: string = pathToTargetFolder;
+            let rootDirectory: string = path.join(esbConfigsDirectory, "..");
             let parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.PARENT, rootDirectory).trim();
-            if (typeof pathToTargetFolder === "undefined") {
-                esbConfigsDirectory = Utils.getDirectoryFromDirectoryType(SubDirectories.CONFIGS,
-                    rootDirectory).trim();
-                if (esbConfigsDirectory === "unidentified") {
-                    window.showErrorMessage("No ESB Configs project found, artifact creation aborted...!");
-                    TerminalModule.printLogMessage(`No ESB Configs project found, ESB artifact ${targetArtifactName} creation aborted.`);
-                    return;
-                }
-                targetArtifactFolderPath = path.join(esbConfigsDirectory, SRC, MAIN, SYNAPSE_CONFIG, targetFolder);
-            }
-            else {
-                esbConfigsDirectory = pathToTargetFolder.split(`${path.sep}${directoryPattern}`)[0];
-                targetArtifactFolderPath = pathToTargetFolder;
-            }
 
             //check for artifact.xml and composite pom.xml
             let artifactFilePath: string = path.join(esbConfigsDirectory, ARTIFACT_FILE);
