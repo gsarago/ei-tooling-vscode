@@ -374,6 +374,7 @@ export class ArtifactInfo {
     static readonly COMPOSITE_EXPORTER_PROMPT_MESSAGE: string = "Enter New Composite Exporter Project Name...";
     static readonly REGISTRY_RESOURCES_PROMPT_MESSAGE: string = "Enter New Registry Resources Project Name...";
     static readonly PARENT_PROMPT_MESSAGE: string = "Enter New Parent Project Name...";
+    static readonly PACKAGE_PROMPT_MESSAGE: string = "Enter New Package Name...";
 
     static artifactTypes: Map<string, string> = new Map();
     static setTypes() {
@@ -388,7 +389,6 @@ export class ArtifactInfo {
         this.artifactTypes.set(SequenceArtifactInfo.DESTINATION_FOLDER, SequenceArtifactInfo.TYPE);
         this.artifactTypes.set(TaskArtifactInfo.DESTINATION_FOLDER, TaskArtifactInfo.TYPE);
         this.artifactTypes.set(RegistryResourceInfo.DESTINATION_FOLDER, RegistryResourceInfo.TYPE);
-
     }
 
     static fileTypes: Map<string, string> = new Map();

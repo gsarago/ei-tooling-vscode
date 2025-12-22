@@ -372,13 +372,13 @@ export namespace Utils {
             templateProjNatureFilePath, SubDirectories.COMPOSITE_EXPORTER, false, rootDirectory, ProjectNatures.COMPOSITE_EXPORTER);
     }
 
-    export async function CreateNewParentProject(rootDirectory: string, projectName: string) {
+    export async function CreateNewParentProject(rootDirectory: string, projectName: string, packageName: string) {
 
         //create new sub-directory
         //create pom.xml, artifact.xml and .project files
         let templatePomFilePath: string = path.join(__dirname, "..", "..", TEMPLATES, POM, "rootPom.xml");
         let templateProjNatureFilePath: string = path.join(__dirname, "..", "..", TEMPLATES, CONF, "multiModuleProject.xml");
-        await createParentProject(projectName, "Maven Multi Module Project", templatePomFilePath, SubDirectories.PARENT, rootDirectory, templateProjNatureFilePath);
+        await createParentProject(projectName, "Maven Multi Module Project", templatePomFilePath, SubDirectories.PARENT, rootDirectory, templateProjNatureFilePath, packageName);
 
     //create root pom.xml and .project files
         //let version: string = "1.0.0";
@@ -716,7 +716,7 @@ export namespace Utils {
    * add it to root pom.xml.
    */
     export async function createParentProject(projectName: string, type: string, templatePomFilePath: string,
-        directoryType: string, rootDirectory: string, templateProjNatureFilePath: string) {
+        directoryType: string, rootDirectory: string, templateProjNatureFilePath: string, packageName: string) {
 
         const currentDirectory: string = getDirectoryFromDirectoryType(directoryType, rootDirectory).trim();
         if (currentDirectory !== "unidentified") {
@@ -730,7 +730,7 @@ export namespace Utils {
                 }
                 fse.mkdirSync(newDirectory);
                 //add artifact.xml, pom.xml and .project
-                createParentConfigurationFiles(projectName + directoryType, 'it.eng.cct.wso2.'+projectName, '1.0.0', projectName, newDirectory, templatePomFilePath, directoryType, templateProjNatureFilePath);
+                createParentConfigurationFiles(projectName + directoryType, packageName+'.'+projectName, '1.0.0', projectName, newDirectory, templatePomFilePath, directoryType, templateProjNatureFilePath);
             }
         }
         else {
@@ -742,7 +742,7 @@ export namespace Utils {
             }
             fse.mkdirSync(newDirectory);
             //add artifact.xml, pom.xml and .project
-            createParentConfigurationFiles(projectName + directoryType, 'it.eng.cct.wso2.'+projectName, '1.0.0', projectName, newDirectory, templatePomFilePath, directoryType, templateProjNatureFilePath);
+            createParentConfigurationFiles(projectName + directoryType, packageName+'.'+projectName, '1.0.0', projectName, newDirectory, templatePomFilePath, directoryType, templateProjNatureFilePath);
         }
     }
 

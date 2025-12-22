@@ -319,7 +319,12 @@ export async function createProject() {
         window.showErrorMessage("Enter valid ESB Project Name!!");
         projectName = await showInputBox(ArtifactInfo.ESB_PROMPT_MESSAGE);
     }
-    await createParentProject(projectName);
+    let packageName = await showInputBox(ArtifactInfo.PACKAGE_PROMPT_MESSAGE);
+    while (typeof packageName !== "undefined" && !Utils.validate(packageName.trim())) {
+        window.showErrorMessage("Enter valid Package Name!!");
+        packageName = await showInputBox(ArtifactInfo.PACKAGE_PROMPT_MESSAGE);
+    }
+    await createParentProject(projectName, packageName);
     await createCompositeProject(projectName);
     await createESBProject(projectName);
     await createRegistryResourcesProject(projectName);
@@ -355,7 +360,7 @@ export async function createCompositeProject(projectName?: string) {
 
 }
 
-export async function createParentProject(projectName?: string) {
+export async function createParentProject(projectName?: string, packageName?: string) {
     if (projectName === null) {
         projectName = await showInputBox(ArtifactInfo.PARENT_PROMPT_MESSAGE);
         while (typeof projectName !== "undefined" && !Utils.validate(projectName.trim())) {
@@ -364,8 +369,16 @@ export async function createParentProject(projectName?: string) {
         }
     }
 
-    if (projectName && workspace.workspaceFolders) {
-        Utils.CreateNewParentProject(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
+    if (packageName === null) {
+        packageName = await showInputBox(ArtifactInfo.PACKAGE_PROMPT_MESSAGE);
+        while (typeof packageName !== "undefined" && !Utils.validate(packageName.trim())) {
+            window.showErrorMessage("Enter valid Package Name!!");
+            packageName = await showInputBox(ArtifactInfo.PACKAGE_PROMPT_MESSAGE);
+        }
+    }
+
+    if (projectName && packageName && workspace.workspaceFolders) {
+        Utils.CreateNewParentProject(workspace.workspaceFolders[0].uri.fsPath, projectName.trim(), packageName.trim());
     }
 
 }
