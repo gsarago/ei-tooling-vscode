@@ -37,10 +37,10 @@ Please follow the steps below to build WSO2 EI Tooling VSCode from source code.
     
 After a successful build, generated VSIX file can be found at `ei-tooling-vscode/vscode-plugin/wso2ei-<version>.vsix`.
 
-If you do changes only in the `ei-tooling-vscode/vscode-plugin/` package, you can create the VSIX file by running the following command in the extension root folder (`ei-tooling-vscode/vscode-plugin/`):
+If you do changes only in the `ei-tooling-vscode/vscode-plugin/` package, you have to install vsce 1.22.0, then you can create the VSIX file by running the following command in the extension root folder (`ei-tooling-vscode/vscode-plugin/`):
 
   ```
-  vsce-package
+  vsce package
   ```
 ## License
   
