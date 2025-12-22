@@ -69,7 +69,7 @@ export namespace ArtifactModule {
             let esbConfigsDirectory: string = pathToTargetFolder.split(`${path.sep}${directoryPattern}`)[0];;
             let targetArtifactFolderPath: string = pathToTargetFolder;
             let rootDirectory: string = path.join(esbConfigsDirectory, "..");
-            let parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.PARENT, rootDirectory).trim();
+            let parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.MULTI_MODULE, rootDirectory).trim();
 
             //check for artifact.xml and composite pom.xml
             let artifactFilePath: string = path.join(esbConfigsDirectory, ARTIFACT_FILE);
@@ -107,7 +107,7 @@ export namespace ArtifactModule {
             let rootDirectory: string = workspace.workspaceFolders[0].uri.fsPath;
             const registryResourceSubDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.REGISTRY_RESOURCES,
                 rootDirectory);
-            const parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.PARENT, rootDirectory).trim();
+            const parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.MULTI_MODULE, rootDirectory).trim();
             // Check if the path really exists. If not exists, the project is not a standard Synapse muilti-module Project
             Utils.checkPathExistence(registryResourceSubDirectory).then(exists => {
                 if (exists) {

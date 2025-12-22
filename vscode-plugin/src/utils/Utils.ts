@@ -21,7 +21,8 @@ import * as fse from "fs-extra";
 import * as path from 'path';
 import {
     SubDirectories, ProjectNatures, APIArtifactInfo, ProxyArtifactInfo, ArtifactInfo, RegistryResourceInfo,
-    ESBArtifactPath, Common
+    ESBArtifactPath, Common,
+    POMTemplateNames
 } from "../artifacts/artifactUtils";
 import { ConnectorModule } from "../connector/ConnectorModule";
 import { XMLSerializer as XMLSerializer } from 'xmldom';
@@ -274,9 +275,9 @@ export namespace Utils {
     }
 
     /**
-     * Check bulid plugin for each project before build.
+     * Check build plugin for each project before build.
      */
-    export function checkBuildPlugins(filePath: string, directory: string) {
+    export function checkBuildPlugins(filePath: string, directory: SubDirectories) {
 
         //read pom xml
         const buf: Buffer = fse.readFileSync(filePath);
@@ -293,8 +294,12 @@ export namespace Utils {
         }
 
         //read template file
-        let fileName: string = directory + "Pom.xml";
+        let fileName: string = getPOMTemplateName(directory);
         let buildTemplatePath: string = path.join(__dirname, "..", "..", TEMPLATES, POM, fileName);
+        // exit check if template file does not exist
+        if (!fse.existsSync(buildTemplatePath)) {
+            return;
+        }
         const buff: Buffer = fse.readFileSync(buildTemplatePath);
         let templateXmlDoc = new DOM().parseFromString(buff.toString(), "text/xml");
 
@@ -327,7 +332,7 @@ export namespace Utils {
         ProjectNatures.REGISTRY_RESOURCES, ProjectNatures.DATA_SERVICE, ProjectNatures.DATA_SOURCE, ProjectNatures.MEDIATOR_PROJECT, ProjectNatures.MULTI_MODULE];
 
         let directoryTypeArray: string[] = [SubDirectories.COMPOSITE_EXPORTER, SubDirectories.CONFIGS, SubDirectories.CONNECTOR_EXPORTER,
-        SubDirectories.REGISTRY_RESOURCES, SubDirectories.DATA_SERVICE, SubDirectories.DATA_SOURCE, SubDirectories.MEDIATOR_PROJECT, SubDirectories.PARENT];
+        SubDirectories.REGISTRY_RESOURCES, SubDirectories.DATA_SERVICE, SubDirectories.DATA_SOURCE, SubDirectories.MEDIATOR_PROJECT, SubDirectories.MULTI_MODULE];
 
         for (let i = 0; i < projectNatures.length; i++) {
             let index: number = projectNatureArray.indexOf(projectNatures[i].textContent.trim());
@@ -337,6 +342,20 @@ export namespace Utils {
             }
         }
         return directoryType;
+    }
+
+    export function getPOMTemplateName(directoryType: SubDirectories): string {
+        let directoryTypeArray: SubDirectories[] = [SubDirectories.COMPOSITE_EXPORTER, SubDirectories.CONFIGS, SubDirectories.CONNECTOR_EXPORTER,
+            SubDirectories.REGISTRY_RESOURCES, SubDirectories.DATA_SERVICE, SubDirectories.MEDIATOR_PROJECT, SubDirectories.MULTI_MODULE];
+
+        let pomTemplateNameArray: string[] = [POMTemplateNames.COMPOSITE_EXPORTER, POMTemplateNames.CONFIGS, POMTemplateNames.CONNECTOR_EXPORTER,
+            POMTemplateNames.REGISTRY_RESOURCES, POMTemplateNames.DATA_SERVICE, POMTemplateNames.MEDIATOR_PROJECT, POMTemplateNames.MULTI_MODULE];
+
+        let index: number = directoryTypeArray.indexOf(directoryType);
+        if (index !== -1) {
+            return pomTemplateNameArray[index];
+        }
+        return "unidentified";
     }
 
     /**
@@ -378,7 +397,7 @@ export namespace Utils {
         //create pom.xml, artifact.xml and .project files
         let templatePomFilePath: string = path.join(__dirname, "..", "..", TEMPLATES, POM, "rootPom.xml");
         let templateProjNatureFilePath: string = path.join(__dirname, "..", "..", TEMPLATES, CONF, "multiModuleProject.xml");
-        await createParentProject(projectName, "Maven Multi Module Project", templatePomFilePath, SubDirectories.PARENT, rootDirectory, templateProjNatureFilePath, packageName);
+        await createParentProject(projectName, "Maven Multi Module Project", templatePomFilePath, SubDirectories.MULTI_MODULE, rootDirectory, templateProjNatureFilePath, packageName);
 
     //create root pom.xml and .project files
         //let version: string = "1.0.0";
@@ -616,7 +635,7 @@ export namespace Utils {
         templatePomXmlPath: string, createArtifactXml: boolean) {
 
         let rootDirectory: string = path.join(directory, "..");
-        rootDirectory = path.join(rootDirectory, projectName + SubDirectories.PARENT);
+        rootDirectory = path.join(rootDirectory, projectName + SubDirectories.MULTI_MODULE);
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         let pomFilePath: string = path.join(directory, POM_FILE);
         let project: Project = getProjectInfoFromPOM(rootPomFilePath);
@@ -771,7 +790,7 @@ export namespace Utils {
                 fse.mkdirSync(newDirectory);
                 //add artifact.xml, pom.xml and .project
                 createConfigurationFiles(projectName, directoryType, newDirectory, templateProjNatureFilePath, templatePomFilePath, createArtifactXml);
-                addProjectToRootPom(projectName + directoryType, projectNature, path.join(rootDirectory, projectName + SubDirectories.PARENT));
+                addProjectToRootPom(projectName + directoryType, projectNature, path.join(rootDirectory, projectName + SubDirectories.MULTI_MODULE));
             }
         }
         else {
@@ -784,7 +803,7 @@ export namespace Utils {
             fse.mkdirSync(newDirectory);
             //add artifact.xml, pom.xml and .project
             createConfigurationFiles(projectName, directoryType, newDirectory, templateProjNatureFilePath, templatePomFilePath, createArtifactXml);
-            addProjectToRootPom(projectName + directoryType, projectNature, path.join(rootDirectory, projectName + SubDirectories.PARENT));
+            addProjectToRootPom(projectName + directoryType, projectNature, path.join(rootDirectory, projectName + SubDirectories.MULTI_MODULE));
         }
     }
 

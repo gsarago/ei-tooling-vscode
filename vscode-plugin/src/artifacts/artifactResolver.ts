@@ -333,8 +333,6 @@ export async function createProject() {
         await createESBProject(projectName);
         await createRegistryResourcesProject(projectName);
     }
-    
-
 }
 
 export async function createESBProject(projectName?: string) {

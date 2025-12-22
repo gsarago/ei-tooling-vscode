@@ -24,7 +24,6 @@ export class ServerRoleInfo {
 }
 
 export class SubDirectories {
-    static readonly MULTI_MODULE = "root";
     static readonly COMPOSITE_EXPORTER: string = "CompositeApplication";
     static readonly CONFIGS: string = "ESB";
     static readonly CONNECTOR_EXPORTER: string = "ConnectorExporter";
@@ -32,7 +31,7 @@ export class SubDirectories {
     static readonly DATA_SERVICE: string = "DataServiceConfigs";
     static readonly DATA_SOURCE: string = "DataSourceConfigs";
     static readonly MEDIATOR_PROJECT: string = "MediatorProject";
-    static readonly PARENT: string = "Parent";
+    static readonly MULTI_MODULE: string = "Parent";
 }
 
 export class ProjectNatures {
@@ -44,6 +43,16 @@ export class ProjectNatures {
     static readonly DATA_SERVICE: string = "org.wso2.developerstudio.eclipse.ds.project.nature";
     static readonly DATA_SOURCE: string = "org.wso2.developerstudio.eclipse.datasource.project.nature";
     static readonly MEDIATOR_PROJECT: string = "org.wso2.developerstudio.eclipse.artifact.mediator.project.nature";
+}
+
+export class POMTemplateNames {
+    static readonly MULTI_MODULE: string = "rootPom.xml";
+    static readonly COMPOSITE_EXPORTER: string = "CompositeExporterPom.xml";
+    static readonly CONFIGS: string = "ConfigsPom.xml";
+    static readonly CONNECTOR_EXPORTER: string = "ConnectorExporterPom.xml";
+    static readonly REGISTRY_RESOURCES: string = "RegistryResourcesPom.xml";
+    static readonly DATA_SERVICE: string = "DataServiceConfigsPom.xml";
+    static readonly MEDIATOR_PROJECT: string = "MediatorProjectPom.xml";
 }
 
 export class ESBArtifactPath {
@@ -375,6 +384,7 @@ export class ArtifactInfo {
     static readonly REGISTRY_RESOURCES_PROMPT_MESSAGE: string = "Enter New Registry Resources Project Name...";
     static readonly PARENT_PROMPT_MESSAGE: string = "Enter New Parent Project Name...";
     static readonly PACKAGE_PROMPT_MESSAGE: string = "Enter New Package Name...";
+    static readonly PROJECT_PROMPT_MESSAGE: string = "Enter Project Name...";
 
     static artifactTypes: Map<string, string> = new Map();
     static setTypes() {
