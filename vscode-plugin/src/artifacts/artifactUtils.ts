@@ -385,6 +385,7 @@ export class ArtifactInfo {
     static readonly PARENT_PROMPT_MESSAGE: string = "Enter New Parent Project Name...";
     static readonly PACKAGE_PROMPT_MESSAGE: string = "Enter New Package Name...";
     static readonly PROJECT_PROMPT_MESSAGE: string = "Enter Project Name...";
+    static readonly PROFILE_PROMPT_MESSAGE: string = "Enter Profile Name...";
 
     static artifactTypes: Map<string, string> = new Map();
     static setTypes() {

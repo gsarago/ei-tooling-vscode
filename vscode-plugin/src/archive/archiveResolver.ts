@@ -48,6 +48,13 @@ export async function createDeployableArchive() {
             window.showErrorMessage("Enter valid and existing project name!!");
             projectName = await showInputBox(ArtifactInfo.PROJECT_PROMPT_MESSAGE);
         }
+
+        let profileName = await showInputBox(ArtifactInfo.PROFILE_PROMPT_MESSAGE);
+        while (typeof profileName === "undefined" || !Utils.validate(profileName.trim())) {
+            window.showErrorMessage("Enter valid profile name!!");
+            profileName = await showInputBox(ArtifactInfo.PROFILE_PROMPT_MESSAGE);
+        }
+
         rootDirectory = path.join(rootDirectory, projectName.trim());
         const parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.MULTI_MODULE, rootDirectory).trim();
         //check build plugins in root pom.xml
@@ -74,11 +81,10 @@ export async function createDeployableArchive() {
                             }
                         }
                     });
-                })
+                });
             }
-            const rootPomFilePath: string = path.join(Utils.getDirectoryFromDirectoryType(SubDirectories.MULTI_MODULE, rootDirectory).trim(), POM_FILE);
-            executeProjectBuildCommand(rootPomFilePath);
         });
+        executeProjectBuildCommand(parentDirectory, profileName.trim());
     }
 }
 

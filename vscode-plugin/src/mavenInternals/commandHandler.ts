@@ -28,8 +28,11 @@ export async function executeProjectCreateCommand(newProject: ArchetypeModule.ES
     commandRunner.runProjectCreateCommand(cmd, [], projectRootDir, targetLocation);
 }
 
-export function executeProjectBuildCommand(pathToPom: string) {
-    let cmd = createMavenBuildCommand();
+export function executeProjectBuildCommand(pathToPom: string, profile: string) {
+    let cmd1 = createMavenNBuildCommand(profile);
+    let commandRunner1: Runner = new Runner();
+    commandRunner1.runProjectBuildCommand(cmd1, pathToPom);
+    let cmd = createMavenBuildCommand(profile);
     let commandRunner: Runner = new Runner();
     commandRunner.runProjectBuildCommand(cmd, pathToPom);
 }
@@ -49,11 +52,21 @@ function getMavenGenerateCommand(newProject: ArchetypeModule.ESBProject): string
     ].join(" ");
 }
 
-function createMavenBuildCommand(): string {
+function createMavenBuildCommand(profile: string): string {
     return [
         "mvn",
         "clean",
         "install",
-        "-Dmaven.test.skip"
+        `-P${profile}`
+    ].join(" ");
+}
+
+function createMavenNBuildCommand(profile: string): string {
+    return [
+        "mvn",
+        "clean",
+        "install",
+        "-N",
+        `-P${profile}`
     ].join(" ");
 }
