@@ -19,7 +19,7 @@ Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 import { workspace, Uri, window, commands } from "vscode";
 import * as path from 'path';
 import { executeProjectBuildCommand } from "../mavenInternals/commandHandler";
-import { Common, SubDirectories } from "../artifacts/artifactUtils";
+import { ArtifactInfo, Common, SubDirectories } from "../artifacts/artifactUtils";
 import { chooseTargetFolder, chooseTargetFile, showInputBox, showInputBoxForArtifactId, showInputBoxForGroupId } from "../utils/uiUtils";
 import { Utils } from "../utils/Utils";
 import { ArchiveModule } from "./ArchiveModule";
@@ -34,7 +34,7 @@ var AdmZip = require('adm-zip');
 /*
 * Build the project and create the .car file in the target folder
 * */
-export function createDeployableArchive() {
+export async function createDeployableArchive() {
 
     const PROJECT_FILE = Common.PROJECT_FILE;
     const POM_FILE = Common.POM_FILE;
@@ -44,10 +44,17 @@ export function createDeployableArchive() {
 
 
     if (workspace.workspaceFolders) {
-        let rootDirectory: string = workspace.workspaceFolders[0].uri.fsPath;
 
+        let projectName = await showInputBox(ArtifactInfo.PARENT_PROMPT_MESSAGE);
+        while (typeof projectName !== "undefined" && !Utils.validate(projectName.trim())) {
+            window.showErrorMessage("Enter valid Parent Project Name!!");
+            projectName = await showInputBox(ArtifactInfo.PARENT_PROMPT_MESSAGE);
+        }
+
+        let rootDirectory: string = workspace.workspaceFolders[0].uri.fsPath;
+        const parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.PARENT, rootDirectory).trim();
         //check build plugins in root pom.xml
-        let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
+        let rootPomFilePath: string = path.join(parentDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
             window.showErrorMessage("No root pom.xml found, project build aborted.");
             TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Project build aborted.`);
@@ -55,13 +62,13 @@ export function createDeployableArchive() {
         }
         Utils.checkBuildPlugins(rootPomFilePath, SubDirectories.MULTI_MODULE);
 
-        fileSystem.readdir(rootDirectory, (err: any, files: any) => {
+        fileSystem.readdir(parentDirectory, (err: any, files: any) => {
             if (err)
                 TerminalModule.printLogMessage(err);
             else {
                 files.forEach((file: any) => {
-                    let projConfigFilePath: string = path.join(rootDirectory, file, PROJECT_FILE);
-                    let pomFilePath: string = path.join(rootDirectory, file, POM_FILE);
+                    let projConfigFilePath: string = path.join(parentDirectory, file, PROJECT_FILE);
+                    let pomFilePath: string = path.join(parentDirectory, file, POM_FILE);
                     Utils.checkPathExistence(pomFilePath).then(exists => {
                         if (exists) {
                             let directoryType: string = Utils.getDirectoryType(projConfigFilePath);

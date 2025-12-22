@@ -17,6 +17,7 @@ Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 */
 import { QuickPickItem, window, workspace } from "vscode";
 import { ArtifactModule } from "./ArtifactModule";
+import { TerminalModule } from "../logging/TerminalModule";
 import {
     APIArtifactInfo,
     EndpointArtifactInfo,
@@ -35,6 +36,8 @@ import {
 } from "./artifactUtils";
 import { showInputBox, showQuickPick } from "../utils/uiUtils";
 import { Utils } from "../utils/Utils";
+import * as fse from "fs-extra";
+import * as path from 'path';
 
 export async function createArtifact(artifactType: string, targetFolderPath: string | undefined) {
     switch (artifactType) {
@@ -324,10 +327,14 @@ export async function createProject() {
         window.showErrorMessage("Enter valid Package Name!!");
         packageName = await showInputBox(ArtifactInfo.PACKAGE_PROMPT_MESSAGE);
     }
-    await createParentProject(projectName, packageName);
-    await createCompositeProject(projectName);
-    await createESBProject(projectName);
-    await createRegistryResourcesProject(projectName);
+    if(workspace.workspaceFolders && projectName){
+        await createParentProject(projectName, packageName);
+        await createCompositeProject(projectName);
+        await createESBProject(projectName);
+        await createRegistryResourcesProject(projectName);
+    }
+    
+
 }
 
 export async function createESBProject(projectName?: string) {
@@ -340,7 +347,11 @@ export async function createESBProject(projectName?: string) {
     }
 
     if (projectName && workspace.workspaceFolders) {
-        ArtifactModule.CreateNewESBConfigProject(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
+        let rootDirectory: string = path.join(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
+        if (!fse.existsSync(rootDirectory)) {
+            fse.mkdirSync(rootDirectory);
+        }
+        ArtifactModule.CreateNewESBConfigProject(rootDirectory, projectName.trim());
     }
 
 }
@@ -355,7 +366,11 @@ export async function createCompositeProject(projectName?: string) {
     }
 
     if (projectName && workspace.workspaceFolders) {
-        Utils.CreateNewCompositeExporterProject(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
+        let rootDirectory: string = path.join(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
+        if (!fse.existsSync(rootDirectory)) {
+            fse.mkdirSync(rootDirectory);
+        }
+        Utils.CreateNewCompositeExporterProject(rootDirectory, projectName.trim());
     }
 
 }
@@ -378,7 +393,11 @@ export async function createParentProject(projectName?: string, packageName?: st
     }
 
     if (projectName && packageName && workspace.workspaceFolders) {
-        Utils.CreateNewParentProject(workspace.workspaceFolders[0].uri.fsPath, projectName.trim(), packageName.trim());
+        let rootDirectory: string = path.join(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
+        if (!fse.existsSync(rootDirectory)) {
+            fse.mkdirSync(rootDirectory);
+        }
+        Utils.CreateNewParentProject(rootDirectory, projectName.trim(), packageName.trim());
     }
 
 }
@@ -393,7 +412,11 @@ export async function createRegistryResourcesProject(projectName?: string) {
     }
 
     if (projectName && workspace.workspaceFolders) {
-        ArtifactModule.CreateNewRegistryResourcesProject(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
+        let rootDirectory: string = path.join(workspace.workspaceFolders[0].uri.fsPath, projectName.trim());
+        if (!fse.existsSync(rootDirectory)) {
+            fse.mkdirSync(rootDirectory);
+        }        
+        ArtifactModule.CreateNewRegistryResourcesProject(rootDirectory, projectName.trim());
     }
 
 }

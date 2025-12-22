@@ -153,7 +153,7 @@ function registerSynapseCommands(context: ExtensionContext) {
         await createProject();
     }));
     context.subscriptions.push(commands.registerCommand("wso2ei.project.build", async () => {
-        createDeployableArchive();
+        await createDeployableArchive();
     }));
     context.subscriptions.push(commands.registerCommand("wso2ei.project.create.esb", async () => {
         await createESBProject();
