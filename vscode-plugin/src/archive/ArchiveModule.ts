@@ -101,6 +101,7 @@ export namespace ArchiveModule {
             createRootPomXml(newRootDirectory, groupId, projectName, version);
 
             //create settings.json
+            //TODO controlla anche questo
             Utils.createVsCodeSettingsFile(newProjectDirectory);
 
             //create composite exporter project

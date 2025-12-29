@@ -434,6 +434,7 @@ export namespace ArtifactModule {
         }
     }
 
+    //TODO controlla anche questo
     /**
      * Delete the artifact info of the deleted artifact from the related 
      * -artifact.xml file
@@ -622,6 +623,8 @@ export namespace ArtifactModule {
         for (let i = 0; i < artifactSubFolders.length; i++) {
             let subFolderPath: string = path.join(rootDirectory, projectName + SubDirectories.CONFIGS, SRC, MAIN, SYNAPSE_CONFIG, artifactSubFolders[i].trim());
             file_system.mkdirSync(subFolderPath, { recursive: true });
+            let gitkeepFilePath: string = path.join(subFolderPath, ".gitkeep");
+            file_system.writeFileSync(gitkeepFilePath, "");
         }
     }
 

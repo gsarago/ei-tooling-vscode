@@ -188,7 +188,7 @@ export namespace Utils {
      */
     export function deleteArtifactFromPomXml(artifactName: string, artifactType: string, rootDirectory: string,
         esbConfigsDirectory: string | undefined, groupId: string | undefined) {
-
+            
         const pathToPomXml: string = path.join(getDirectoryFromDirectoryType(SubDirectories.COMPOSITE_EXPORTER, rootDirectory), POM_FILE);
         if (!fse.existsSync(pathToPomXml)) {
             TerminalModule.printLogMessage(`${pathToPomXml} does not exists, deleting ${artifactName} from composite pom.xml skipped.`);
@@ -255,6 +255,7 @@ export namespace Utils {
                 }
                 else if (artifactType === proxyServiceType) {
 
+                    //TODO potresti usare questo codice per eliminare un proxy service e cancellare tutti i riferimenti nel progetto
                     //delete metadata related imformation
                     let metadataArtifactName: string = `${artifactName}_${PROXY_METADATA}`;
                     deleteArtifactFromPomXml(metadataArtifactName, METADATA, rootDirectory, esbConfigsDirectory, undefined);
