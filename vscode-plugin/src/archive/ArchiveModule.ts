@@ -219,7 +219,7 @@ export namespace ArchiveModule {
         metadataDirectory: string, metadataFilePath: string) {
         if (!isEsbProjectCreated) {
             //create esb configs project
-            let esbConfigsName: string = `${projectName}Configs`;
+            let esbConfigsName: string = `${projectName}`;
             ArtifactModule.CreateNewESBConfigProject(rootDirectory, esbConfigsName);
             isEsbProjectCreated = true;
         }

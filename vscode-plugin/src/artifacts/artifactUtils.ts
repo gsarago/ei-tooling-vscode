@@ -25,7 +25,7 @@ export class ServerRoleInfo {
 
 export class SubDirectories {
     static readonly COMPOSITE_EXPORTER: string = "CompositeApplication";
-    static readonly CONFIGS: string = "ESB";
+    static readonly CONFIGS: string = "";
     static readonly CONNECTOR_EXPORTER: string = "ConnectorExporter";
     static readonly REGISTRY_RESOURCES: string = "Registry";
     static readonly DATA_SERVICE: string = "DataServiceConfigs";
