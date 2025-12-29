@@ -707,11 +707,11 @@ export namespace Utils {
         let rootProjectDescription = pomXmlDoc.getElementsByTagName("description")[0];
 
         //root
-        artifactIds[0].textContent = artifactId;
+        artifactIds[0].textContent = projectName.trim() + directoryType;
         groupIds[0].textContent = groupId;
         versions[0].textContent = version;
-        rootProjectName.textContent = projectName.trim();
-        rootProjectDescription.textContent = projectName.trim();
+        rootProjectName.textContent = projectName.trim() + directoryType;
+        rootProjectDescription.textContent = projectName.trim() + directoryType;
 
         createXmlFile(pomFilePath, pomXmlDoc);
 
