@@ -69,6 +69,7 @@ export class Common {
     static readonly VERSION: string = "1.0.0";
     static readonly POM_FILE: string = "pom.xml";
     static readonly ARTIFACT_FILE: string = "artifact.xml";
+    //TODO: try to avoid using .project file
     static readonly PROJECT_FILE: string = ".project";
     static readonly POM: string = "pom";
     static readonly CONF: string = "Conf";
