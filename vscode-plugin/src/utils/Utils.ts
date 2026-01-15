@@ -750,7 +750,7 @@ export namespace Utils {
                 }
                 fse.mkdirSync(newDirectory);
                 //add artifact.xml, pom.xml and .project
-                createParentConfigurationFiles(projectName + directoryType, packageName+'.'+projectName, '1.0.0', projectName, newDirectory, templatePomFilePath, directoryType, templateProjNatureFilePath);
+                createParentConfigurationFiles(projectName + directoryType, packageName, '1.0.0', projectName, newDirectory, templatePomFilePath, directoryType, templateProjNatureFilePath);
             }
         }
         else {
@@ -762,7 +762,7 @@ export namespace Utils {
             }
             fse.mkdirSync(newDirectory);
             //add artifact.xml, pom.xml and .project
-            createParentConfigurationFiles(projectName + directoryType, packageName+'.'+projectName, '1.0.0', projectName, newDirectory, templatePomFilePath, directoryType, templateProjNatureFilePath);
+            createParentConfigurationFiles(projectName + directoryType, packageName, '1.0.0', projectName, newDirectory, templatePomFilePath, directoryType, templateProjNatureFilePath);
         }
     }
 

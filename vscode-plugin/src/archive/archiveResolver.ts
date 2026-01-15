@@ -44,9 +44,12 @@ export async function createDeployableArchive(parentDirectory: string) {
         let rootDirectory: string = workspace.workspaceFolders[0].uri.fsPath;
 
         let profileName = await showInputBox(ArtifactInfo.PROFILE_PROMPT_MESSAGE);
-        while (typeof profileName === "undefined" || !Utils.validate(profileName.trim())) {
+        while (typeof profileName !== "undefined" && !Utils.validate(profileName.trim())) {
             window.showErrorMessage("Enter valid profile name!!");
             profileName = await showInputBox(ArtifactInfo.PROFILE_PROMPT_MESSAGE);
+        }
+        if(typeof profileName === "undefined") {
+            return;
         }
 
         rootDirectory = path.join(parentDirectory, "..");
