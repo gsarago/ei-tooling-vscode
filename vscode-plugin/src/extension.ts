@@ -152,9 +152,6 @@ function registerSynapseCommands(context: ExtensionContext) {
     context.subscriptions.push(commands.registerCommand("wso2ei.project.create", async () => {        
         await createProject();
     }));
-    context.subscriptions.push(commands.registerCommand("wso2ei.project.build", async () => {
-        await createDeployableArchive();
-    }));
     context.subscriptions.push(commands.registerCommand("wso2ei.project.create.esb", async () => {
         await createESBProject();
     }));
@@ -188,6 +185,11 @@ function registerSynapseCommands(context: ExtensionContext) {
     context.subscriptions.push(commands.registerCommand("wso2ei.artifact.proxytcp", async (Uri: Uri | undefined) => {
         let filePath: string | undefined = checkUriExistence(Uri);
         await createArtifact(ProxyTCPArtifactInfo.ARTIFACT_TYPE, filePath);
+    }));
+
+    context.subscriptions.push(commands.registerCommand("wso2ei.project.buildProject", async (Uri: Uri | undefined) => {
+        let filePath: string | undefined = checkUriExistence(Uri);
+        if(filePath) await createDeployableArchive(filePath);
     }));
 
     context.subscriptions.push(commands.registerCommand("wso2ei.artifact.proxyfhir", async (Uri: Uri | undefined) => {

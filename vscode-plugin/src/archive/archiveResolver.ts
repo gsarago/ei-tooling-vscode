@@ -34,7 +34,7 @@ var AdmZip = require('adm-zip');
 /*
 * Build the project and create the .car file in the target folder
 * */
-export async function createDeployableArchive() {
+export async function createDeployableArchive(parentDirectory: string) {
 
     const PROJECT_FILE = Common.PROJECT_FILE;
     const POM_FILE = Common.POM_FILE;
@@ -43,20 +43,13 @@ export async function createDeployableArchive() {
 
         let rootDirectory: string = workspace.workspaceFolders[0].uri.fsPath;
 
-        let projectName = await showInputBox(ArtifactInfo.PROJECT_PROMPT_MESSAGE);
-        while (typeof projectName === "undefined" || !Utils.validate(projectName.trim()) || !fse.existsSync(path.join(rootDirectory, projectName))) {
-            window.showErrorMessage("Enter valid and existing project name!!");
-            projectName = await showInputBox(ArtifactInfo.PROJECT_PROMPT_MESSAGE);
-        }
-
         let profileName = await showInputBox(ArtifactInfo.PROFILE_PROMPT_MESSAGE);
         while (typeof profileName === "undefined" || !Utils.validate(profileName.trim())) {
             window.showErrorMessage("Enter valid profile name!!");
             profileName = await showInputBox(ArtifactInfo.PROFILE_PROMPT_MESSAGE);
         }
 
-        rootDirectory = path.join(rootDirectory, projectName.trim());
-        const parentDirectory: string = Utils.getDirectoryFromDirectoryType(SubDirectories.MULTI_MODULE, rootDirectory).trim();
+        rootDirectory = path.join(parentDirectory, "..");
         //check build plugins in root pom.xml
         let rootPomFilePath: string = path.join(parentDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {

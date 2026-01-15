@@ -25,7 +25,7 @@
 		"onCommand:wso2ei.project.create.esb",
 		"onCommand:wso2ei.project.create.composite",
 		"onCommand:wso2ei.project.create.registry",
-		"onCommand:wso2ei.project.build",
+		"onCommand:wso2ei.project.buildProject",
 		"onCommand:wso2ei.project.import",
 		"onCommand:wso2ei.project.zip",
 		"onCommand:wso2ei.project.unzip",
@@ -236,7 +236,7 @@
 				"category": "WSO2EI"
 			},
 			{
-				"command": "wso2ei.project.build",
+				"command": "wso2ei.project.buildProject",
 				"title": "Build Integration Project",
 				"category": "WSO2EI"
 			},
@@ -327,6 +327,11 @@
 					"command": "wso2ei.artifact.proxytcp",
 					"when": "resourceFilename =~ /^proxy-services$/",
 					"group": "2_workspace"
+				},
+				{
+					   "command": "wso2ei.project.buildProject",
+					   "when": "resourceFilename =~ /Parent$/",
+					   "group": "2_workspace"
 				},
 				{
 					"command": "wso2ei.artifact.proxyfhir",
