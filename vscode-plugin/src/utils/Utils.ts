@@ -158,6 +158,7 @@ export namespace Utils {
     export function deletefromArtifactXml(artifactXmlFilePath: string, artifactName: string) {
 
         if (!fse.existsSync(artifactXmlFilePath)) {
+            // TODO questa parte si attiva sempre perché non trova mai artifact.xml
             TerminalModule.printLogMessage(`${artifactXmlFilePath} does not exists, deleting ${artifactName} artifact from artifact.xml skipped.`);
             return
         };
