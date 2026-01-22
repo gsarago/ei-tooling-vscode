@@ -159,7 +159,7 @@ export namespace Utils {
 
         if (!fse.existsSync(artifactXmlFilePath)) {
             // TODO questa parte si attiva sempre perché non trova mai artifact.xml
-            TerminalModule.printLogMessage(`${artifactXmlFilePath} does not exists, deleting ${artifactName} artifact from artifact.xml skipped.`);
+            //TerminalModule.printLogMessage(`${artifactXmlFilePath} does not exists, deleting ${artifactName} artifact from artifact.xml skipped.`);
             return
         };
 
@@ -192,7 +192,8 @@ export namespace Utils {
             
         const pathToPomXml: string = path.join(getDirectoryFromDirectoryType(SubDirectories.COMPOSITE_EXPORTER, rootDirectory), POM_FILE);
         if (!fse.existsSync(pathToPomXml)) {
-            TerminalModule.printLogMessage(`${pathToPomXml} does not exists, deleting ${artifactName} from composite pom.xml skipped.`);
+            // TODO questa parte si attiva sempre perché non trova mai pom.xml
+            //TerminalModule.printLogMessage(`${pathToPomXml} does not exists, deleting ${artifactName} from composite pom.xml skipped.`);
             return
         };
 
