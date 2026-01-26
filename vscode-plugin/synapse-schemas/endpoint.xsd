@@ -379,6 +379,7 @@
                     <xs:enumeration value="soap12" />
                     <xs:enumeration value="pox" />
                     <xs:enumeration value="get" />
+                    <xs:enumeration value="rest" />
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
