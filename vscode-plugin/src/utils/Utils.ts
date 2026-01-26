@@ -742,7 +742,7 @@ export namespace Utils {
 
         const currentDirectory: string = getDirectoryFromDirectoryType(directoryType, rootDirectory).trim();
         if (currentDirectory !== "unidentified") {
-            let decision = await window.showWarningMessage(`WSO2 Enterprise Integrator Extension can not handle more than one ${type}, Do you want to continue?`, "Yes", "No");
+            let decision = await window.showWarningMessage(`Galileo WSO2 Enterprise Integrator Extension can not handle more than one ${type}, Do you want to continue?`, "Yes", "No");
             if (decision && (decision.trim() === "Yes")) {
                 let newDirectory: string = path.join(rootDirectory, projectName + directoryType);
                 if (fse.existsSync(newDirectory)) {
@@ -782,7 +782,7 @@ export namespace Utils {
 
         const currentDirectory: string = getDirectoryFromDirectoryType(directoryType, rootDirectory).trim();
         if (currentDirectory !== "unidentified") {
-            let decision = await window.showWarningMessage(`WSO2 Enterprise Integrator Extension can not handle more than one ${type}, Do you want to continue?`, "Yes", "No");
+            let decision = await window.showWarningMessage(`Galileo WSO2 Enterprise Integrator Extension can not handle more than one ${type}, Do you want to continue?`, "Yes", "No");
             if (decision && (decision.trim() === "Yes")) {
                 let newDirectory: string = path.join(rootDirectory, projectName + directoryType);
                 if (fse.existsSync(newDirectory)) {

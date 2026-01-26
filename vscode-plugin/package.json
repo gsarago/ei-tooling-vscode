@@ -1,9 +1,9 @@
 {
 	"name": "wso2ei",
-	"displayName": "WSO2 Enterprise Integrator",
+	"displayName": "WSO2 EI Tooling",
 	"description": "VSCode extension for WSO2 Enterprise Integrator",
-	"publisher": "WSO2",
-	"version": "0.7.5",
+	"publisher": "Galileo",
+	"version": "0.8.0",
 	"engines": {
 		"vscode": "^1.31.0"
 	},
