@@ -37,6 +37,12 @@ export function executeProjectBuildCommand(pathToPom: string, profile: string) {
     commandRunner.runProjectBuildCommand(cmd, pathToPom);
 }
 
+export function executeProjectCleanCommand(parentDirectory: string) {
+    let cmd = createMavenCleanCommand();
+    let commandRunner: Runner = new Runner();
+    commandRunner.runProjectCleanCommand(cmd, parentDirectory);
+}
+
 function getMavenGenerateCommand(newProject: ArchetypeModule.ESBProject): string {
     return [
         "mvn",
@@ -68,5 +74,12 @@ function createMavenNBuildCommand(profile: string): string {
         "install",
         "-N",
         `-P${profile}`
+    ].join(" ");
+}
+
+function createMavenCleanCommand(): string {
+    return [
+        "mvn",
+        "clean"
     ].join(" ");
 }

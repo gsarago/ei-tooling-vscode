@@ -43,7 +43,7 @@ import {
     TemplateArtifactInfo
 } from "./artifacts/artifactUtils";
 
-import { createDeployableArchive, createZipArchive, unzipArchive, createProjectFromCar } from "./archive/archiveResolver";
+import { createDeployableArchive, createZipArchive, unzipArchive, createProjectFromCar, cleanProject } from "./archive/archiveResolver";
 import { ArtifactModule } from "./artifacts/ArtifactModule";
 import { SYNAPSE_LANGUAGE_ID, } from './language/languageUtils';
 import * as path from 'path';
@@ -190,6 +190,11 @@ function registerSynapseCommands(context: ExtensionContext) {
     context.subscriptions.push(commands.registerCommand("wso2ei.project.buildProject", async (Uri: Uri | undefined) => {
         let filePath: string | undefined = checkUriExistence(Uri);
         if(filePath) await createDeployableArchive(filePath);
+    }));
+
+    context.subscriptions.push(commands.registerCommand("wso2ei.project.cleanProject", async (Uri: Uri | undefined) => {
+        let filePath: string | undefined = checkUriExistence(Uri);
+        if(filePath) await cleanProject(filePath);
     }));
 
     context.subscriptions.push(commands.registerCommand("wso2ei.artifact.proxyfhir", async (Uri: Uri | undefined) => {

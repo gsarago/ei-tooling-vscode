@@ -27,6 +27,7 @@ export class Runner {
     private _process: ChildProcess | undefined;
     private readonly CreateProject: string = "CreateProject";
     private readonly BuildProject: string = "BuildProject";
+    private readonly CleanProject: string = "CleanProject";
 
     public runCommand(goal: string, command: string, args: string[], nwd?: string, cwd?: string) {
         mavenOutputChannel.clear();
@@ -64,5 +65,9 @@ export class Runner {
 
     public runProjectCreateCommand(command: string, args: string[], nwd?: string, cwd?: string) {
         this.runCommand(this.CreateProject, command, args, nwd, cwd);
+    }
+
+    public runProjectCleanCommand(command: string, cwd?: string) {
+        this.runCommand(this.CleanProject, command, [], undefined, cwd);
     }
 }

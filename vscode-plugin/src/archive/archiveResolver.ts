@@ -18,7 +18,7 @@ Copyright (c) 2019, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 
 import { workspace, Uri, window, commands } from "vscode";
 import * as path from 'path';
-import { executeProjectBuildCommand } from "../mavenInternals/commandHandler";
+import { executeProjectBuildCommand, executeProjectCleanCommand } from "../mavenInternals/commandHandler";
 import { ArtifactInfo, Common, SubDirectories } from "../artifacts/artifactUtils";
 import { chooseTargetFolder, chooseTargetFile, showInputBox, showInputBoxForArtifactId, showInputBoxForGroupId } from "../utils/uiUtils";
 import { Utils } from "../utils/Utils";
@@ -30,6 +30,10 @@ var fileSystem = require('fs');
 var archiver = require('archiver');
 const extract = require('extract-zip');
 var AdmZip = require('adm-zip');
+
+export async function cleanProject(parentDirectory: string) {
+    executeProjectCleanCommand(parentDirectory);
+}
 
 /*
 * Build the project and create the .car file in the target folder

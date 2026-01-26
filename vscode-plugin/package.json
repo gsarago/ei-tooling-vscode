@@ -26,6 +26,7 @@
 		"onCommand:wso2ei.project.create.composite",
 		"onCommand:wso2ei.project.create.registry",
 		"onCommand:wso2ei.project.buildProject",
+		"onCommand:wso2ei.project.cleanProject",
 		"onCommand:wso2ei.project.import",
 		"onCommand:wso2ei.project.zip",
 		"onCommand:wso2ei.project.unzip",
@@ -241,6 +242,11 @@
 				"category": "WSO2EI"
 			},
 			{
+				"command": "wso2ei.project.cleanProject",
+				"title": "Maven clean Integration Project",
+				"category": "WSO2EI"
+			},
+			{
 				"command": "wso2ei.car.create.zip",
 				"title": "Build Integration Project From CApp",
 				"category": "WSO2EI"
@@ -332,6 +338,11 @@
 					   "command": "wso2ei.project.buildProject",
 					   "when": "resourceFilename =~ /Parent$/",
 					   "group": "2_workspace"
+				},
+				{
+					"command": "wso2ei.project.cleanProject",
+					"when": "resourceFilename =~ /Parent$/",
+					"group": "2_workspace"
 				},
 				{
 					"command": "wso2ei.artifact.proxyfhir",
