@@ -688,6 +688,10 @@ export namespace Utils {
             let artifactFilePath: string = path.join(directory, ARTIFACT_FILE);
             createXmlFile(artifactFilePath, artifacts);
         }
+
+        //create .gitignore file
+        let gitIgnoreFilePath: string = path.join(directory, ".gitignore");
+        fse.writeFileSync(gitIgnoreFilePath, "target");
     }
 
      export function createParentConfigurationFiles(
@@ -727,6 +731,10 @@ export namespace Utils {
 
         let projectNatureFilePath: string = path.join(directory, PROJECT_FILE);
         createXmlFile(projectNatureFilePath, projectNature);
+
+        //create .gitignore file
+        let gitIgnoreFilePath: string = path.join(directory, ".gitignore");
+        fse.writeFileSync(gitIgnoreFilePath, "target");
     }
 
     /**
