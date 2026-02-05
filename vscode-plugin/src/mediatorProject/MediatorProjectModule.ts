@@ -126,7 +126,7 @@ export namespace MediatorProjectModule {
         //add mediatorProject module to root pom
         if (!fse.existsSync(rootPomFilePath)) {
             window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
-            TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Adding Mediator Project '${projectName}' to root pom.xml aborted.`);
+            //TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Adding Mediator Project '${projectName}' to root pom.xml aborted.`);
             return;
         }
         const rootPomBuffer: Buffer = fse.readFileSync(rootPomFilePath);

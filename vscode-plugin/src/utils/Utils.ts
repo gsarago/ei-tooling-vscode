@@ -415,7 +415,7 @@ export namespace Utils {
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
             window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
-            TerminalModule.printLogMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
+            //TerminalModule.printLogMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
             return;
         }
         const rootPomBuffer: Buffer = fse.readFileSync(rootPomFilePath);
@@ -611,7 +611,7 @@ export namespace Utils {
             let projectName: string = dirArray[dirArray.length - 1];
 
             if (!fse.existsSync(rootPomFilePath)) {
-                TerminalModule.printLogMessage(`${rootPomFilePath} does not exists, deleting ${projectName} from root pom.xml aborted.`);
+                //TerminalModule.printLogMessage(`${rootPomFilePath} does not exists, deleting ${projectName} from root pom.xml aborted.`);
                 return;
             };
 

@@ -636,7 +636,7 @@ export namespace ArtifactModule {
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
             window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
-            TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add ESB module "${projectName}" to root pom.xml.`);
+            //TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add ESB module "${projectName}" to root pom.xml.`);
             return;
         }
         const rootPomBuffer: Buffer = fse.readFileSync(rootPomFilePath);
@@ -700,7 +700,7 @@ export namespace ArtifactModule {
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
             window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
-            TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add Registry Resources module "${projectName}" to root pom.xml.`);
+            //TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add Registry Resources module "${projectName}" to root pom.xml.`);
             return;
         }
         const rootPomBuffer: Buffer = fse.readFileSync(rootPomFilePath);

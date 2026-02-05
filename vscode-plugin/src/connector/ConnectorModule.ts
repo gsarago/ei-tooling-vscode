@@ -58,7 +58,7 @@ export namespace ConnectorModule {
         let rootPomFilePath: string = path.join(rootDirectory, POM_FILE);
         if (!fse.existsSync(rootPomFilePath)) {
             window.showErrorMessage(`${rootPomFilePath} does not exists, adding ${projectName} to root pom.xml aborted.`);
-            TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add connector module '${projectName}' to root pom.xml.`);
+            //TerminalModule.printLogMessage(`${rootPomFilePath} does not exists. Could not add connector module '${projectName}' to root pom.xml.`);
             return;
         }
         const rootPomBuffer: Buffer = fse.readFileSync(rootPomFilePath);
