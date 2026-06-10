@@ -63,7 +63,8 @@ function createMavenBuildCommand(profile: string): string {
         "mvn",
         "clean",
         "install",
-        `-P${profile}`
+        `-P${profile}`,
+        '-e'
     ].join(" ");
 }
 
@@ -73,7 +74,8 @@ function createMavenNBuildCommand(profile: string): string {
         "clean",
         "install",
         "-N",
-        `-P${profile}`
+        `-P${profile}`,
+        '-e'
     ].join(" ");
 }
 
