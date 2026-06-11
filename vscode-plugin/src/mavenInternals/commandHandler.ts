@@ -63,6 +63,8 @@ function createMavenBuildCommand(profile: string): string {
         "mvn",
         "clean",
         "install",
+        "-Dmaven.compiler.source=1.8",
+        "-Dmaven.compiler.target=1.8",
         `-P${profile}`,
         '-e'
     ].join(" ");
@@ -74,6 +76,8 @@ function createMavenNBuildCommand(profile: string): string {
         "clean",
         "install",
         "-N",
+        "-Dmaven.compiler.source=1.8",
+        "-Dmaven.compiler.target=1.8",
         `-P${profile}`,
         '-e'
     ].join(" ");

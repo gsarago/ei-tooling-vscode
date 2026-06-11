@@ -32,7 +32,7 @@ export class Runner {
     public runCommand(goal: string, command: string, args: string[], nwd?: string, cwd?: string) {
         mavenOutputChannel.clear();
         mavenOutputChannel.show();
-
+        mavenOutputChannel.append(`Executing command: ${command} ${args.join(" ")}\n\n`);
         this._process = spawn(command, args, { cwd: cwd, shell: true });
 
         this._process.stdout.on('data', (data) => {
