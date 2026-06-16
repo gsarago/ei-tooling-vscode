@@ -53,6 +53,7 @@ export namespace Utils {
     const MODULES = Common.MODULES;
     const PROXY_METADATA = Common.PROXY_METADATA;
     const ARTIFACT_ID_TAG = Common.ARTIFACT_ID_TAG;
+    const RELATIVE_PATH_TAG = Common.RELATIVE_PATH_TAG;
     const GROUP_ID_TAG = Common.GROUP_ID_TAG;
     const VERSION_TAG = Common.VERSION_TAG;
     const NAME_TAG = Common.NAME_TAG;
@@ -650,6 +651,7 @@ export namespace Utils {
         let artifactIds = pomXmlDoc.getElementsByTagName(ARTIFACT_ID_TAG);
         let groupIds = pomXmlDoc.getElementsByTagName(GROUP_ID_TAG);
         let versions = pomXmlDoc.getElementsByTagName(VERSION_TAG);
+        let relativePath = pomXmlDoc.getElementsByTagName(RELATIVE_PATH_TAG);
         let childProjectName = pomXmlDoc.getElementsByTagName(NAME_TAG)[0];
         let childProjectDescription = pomXmlDoc.getElementsByTagName("description")[0];
 
@@ -657,6 +659,9 @@ export namespace Utils {
         artifactIds[0].textContent = project.artifactId;
         groupIds[0].textContent = project.groupId;
         versions[0].textContent = project.version;
+        if(relativePath != null && relativePath.length > 0){
+            relativePath[0].textContent = path.relative(directory, rootDirectory);
+        }
 
         //child
         artifactIds[1].textContent = projectName.trim() + directoryType;

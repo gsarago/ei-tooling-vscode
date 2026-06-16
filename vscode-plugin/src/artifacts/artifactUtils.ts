@@ -81,6 +81,7 @@ export class Common {
     static readonly ARTIFACT_ID_TAG: string = "artifactId";
     static readonly GROUP_ID_TAG: string = "groupId";
     static readonly VERSION_TAG: string = "version";
+    static readonly RELATIVE_PATH_TAG: string = "relativePath";
     static readonly DEPENDENCIES_TAG: string = "dependencies";
     static readonly PLUGIN_TAG: string = "plugin";
     static readonly XML_TYPE: "text/xml";
