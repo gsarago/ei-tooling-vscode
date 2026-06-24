@@ -92,6 +92,9 @@ export namespace TerminalModule {
     * Print Log messages to the terminal.
     */
     export function printLogMessage(logMessage: string) {
+        if(logMessage === "log4j:WARN No appenders could be found for logger (org.apache.axiom.om.util.StAXUtils)."){
+            return;
+        }
         createTerminal();
         terminal.sendText(`echo "[Log] ${logMessage}"`);
     }
